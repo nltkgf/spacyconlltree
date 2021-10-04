@@ -1,0 +1,12 @@
+1 The the DET DT Definite=Def|PronType=Art 2 det _ FUN=DefArt
+2 PDPA PDPA NOUN NN Number=Sing 3 nsubj _ FUN=PDPA_N
+3 covers cover VERB VBZ Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin 0 ROOT _ FUN=coverVBZ
+4 personal personal ADJ JJ Degree=Pos 5 amod _ FUN=personal_A
+5 data data NOUN NN Number=Sing 3 obj _ FUN=data_N
+6 stored store VERB VBN Tense=Past|VerbForm=Part 5 acl _ FUN=storeVBN
+7 in in ADP IN _ 11 case _ _
+8 electronic electronic ADJ JJ Degree=Pos 11 amod _ FUN=electronic_A
+9 and and CCONJ CC _ 10 cc _ FUN=and_Conj
+10 non-electronic non-electronic ADJ JJ Degree=Pos 8 conj _ FUN=non-electronic_A
+11 formats format NOUN NNS Number=Plur 6 obl _ FUN=format_N
+12 . . PUNCT . _ 3 punct _ _
