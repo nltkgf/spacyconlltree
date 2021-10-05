@@ -42,7 +42,7 @@ def sub_fun(x, y):
       else:
         make_fun = "_"
       line_list[-1] = make_fun + "\n"
-      list_to_line = " ".join(line_list)
+      list_to_line = "\t".join(line_list)
       f.writelines(list_to_line)
 
 conll = doc_con._.conll_str
