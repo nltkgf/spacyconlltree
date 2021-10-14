@@ -44,14 +44,17 @@ def sub_fun(x, y):
         make_fun = "_"
       line_list[-1] = make_fun + "\n"
       morpho(line_list)
+      lowerroot(line_list)
       list_to_line = "\t".join(line_list)
       f.writelines(list_to_line)
 
 def morpho(line_list):
-    if (line_list[1] == 'the'):
-      line_list[4] = "Quant"
-      line_list[5] = "FORM=0"
-    print(line_list)
+  if (line_list[1] == 'the'):
+    line_list[4] = "Quant"
+    line_list[5] = "FORM=0"
+
+def lowerroot(line_list):
+  line_list[7] = line_list[7].lower()
 
 conll = doc_con._.conll_str
 sub_fun(conll, "spacy.conllu")
