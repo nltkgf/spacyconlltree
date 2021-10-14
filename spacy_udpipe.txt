@@ -1,12 +1,5 @@
-The the DET det PDPA
-PDPA PDPA NOUN nsubj covers
-covers cover VERB ROOT covers
-personal personal ADJ amod data
-data data NOUN obj covers
-stored store VERB acl data
-in in ADP case formats
-electronic electronic ADJ amod formats
-and and CCONJ cc non-electronic
-non-electronic non-electronic ADJ conj electronic
-formats format NOUN obl stored
-. . PUNCT punct covers
+sentence.py sentence.py VERB csubj black
+the the DET det cat
+cat cat NOUN obj sentence.py
+is be AUX cop black
+black black ADJ ROOT black

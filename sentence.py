@@ -1,5 +1,6 @@
 import spacy
 import spacy_udpipe
+import sys
 
 nlp = spacy.load("en_core_web_sm")
 from spacy import displacy
@@ -10,7 +11,7 @@ con = init_parser(
      "en", "udpipe", include_headers=True
 )
 
-text = "The PDPA covers personal data stored in electronic and non-electronic formats."
+text = ' '.join(map(str, sys.argv))
 doc = nlp(text)
 doc_con = con(text)
 # print("just spacy")
@@ -47,11 +48,6 @@ def sub_fun(x, y):
 
 conll = doc_con._.conll_str
 sub_fun(conll, "spacy.conllu")
-
-
-test = con("the black cat")
-test_conll = test._.conll_str
-#print(sub_fun(test_conll))
 
 print("spacy_udpipe")
 nlp_pipe = spacy_udpipe.load("en")
