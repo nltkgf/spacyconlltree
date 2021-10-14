@@ -1,5 +1,4 @@
-sentence.py sentence.py VERB csubj black
 the the DET det cat
-cat cat NOUN obj sentence.py
+cat cat NOUN nsubj black
 is be AUX cop black
 black black ADJ ROOT black

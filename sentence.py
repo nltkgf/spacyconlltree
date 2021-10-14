@@ -11,7 +11,7 @@ con = init_parser(
      "en", "udpipe", include_headers=True
 )
 
-text = ' '.join(map(str, sys.argv))
+text = ' '.join(sys.argv[1:])
 doc = nlp(text)
 doc_con = con(text)
 # print("just spacy")
@@ -43,11 +43,19 @@ def sub_fun(x, y):
       else:
         make_fun = "_"
       line_list[-1] = make_fun + "\n"
+      morpho(line_list)
       list_to_line = "\t".join(line_list)
       f.writelines(list_to_line)
 
+def morpho(line_list):
+    if (line_list[1] == 'the'):
+      line_list[4] = "Quant"
+      line_list[5] = "FORM=0"
+    print(line_list)
+
 conll = doc_con._.conll_str
 sub_fun(conll, "spacy.conllu")
+# morpho(conll)
 
 print("spacy_udpipe")
 nlp_pipe = spacy_udpipe.load("en")

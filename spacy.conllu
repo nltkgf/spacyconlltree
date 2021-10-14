@@ -1,5 +1,4 @@
-1	sentence.py	sentence.py	VERB	VB	Mood=Imp|VerbForm=Fin	5	csubj	_	FUN=sentence.pyVB
-2	the	the	DET	DT	Definite=Def|PronType=Art	3	det	_	FUN=DefArt
-3	cat	cat	NOUN	NN	Number=Sing	1	obj	_	FUN=cat_N
-4	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	cop	_	FUN=UseComp
-5	black	black	ADJ	JJ	Degree=Pos	0	ROOT	_	FUN=black_A
+1	the	the	DET	Quant	FORM=0	2	det	_	FUN=DefArt
+2	cat	cat	NOUN	NN	Number=Sing	4	nsubj	_	FUN=cat_N
+3	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	4	cop	_	FUN=UseComp
+4	black	black	ADJ	JJ	Degree=Pos	0	ROOT	_	FUN=black_A
