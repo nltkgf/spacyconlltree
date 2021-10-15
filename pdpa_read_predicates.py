@@ -32,6 +32,6 @@ print("There are", len(sentences_array), "predicates altogether.")
 for i in sentences_array:
     for text in i:
         print (text)
-        print(len(text.split()))
+        # print(len(text.split()))
 
 print ("complete")
