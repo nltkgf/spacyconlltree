@@ -1,6 +1,6 @@
 call it like:
 
-python sentence.py the cat is black
+python sentence.py myfile 
 
 the output is in:
 

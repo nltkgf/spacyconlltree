@@ -1,4 +1,4 @@
+she she PRON nsubj cat
+touches touch AUX cop cat
 the the DET det cat
-cat cat NOUN nsubj black
-is be AUX cop black
-black black ADJ ROOT black
+cat cat NOUN ROOT cat
