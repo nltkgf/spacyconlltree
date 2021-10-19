@@ -24,10 +24,12 @@ with open(filename) as input:
     text = text.rstrip()
     doc = nlp(text)
     doc_con = con(text)
-    # print("just spacy")
-    # for token in nlp(text):
-    #   print(token.text, token.lemma_, token.pos_, token.dep_, token.head.text)
-    # displacy.serve(doc, style="dep")
+
+    #print("dependency")
+    for token in nlp(text):
+      # print(token.text, token.lemma_, token.pos_, token.dep_, token.head.text)
+      if token.dep_.lower() == 'root':
+        print('root ', token.text)
 
     def sub_fun(x):
       conll = x._.conll_str
@@ -40,7 +42,6 @@ with open(filename) as input:
 
         line_list = line.split()
         if ((len(checkEmpty) > 0) and (int(line_list[0]) == 1)):
-          print(line_list)
           output.write('\n')
         if (line_list[3] == 'NOUN'):
           make_fun = "FUN=" + line_list[2] + "_N"
