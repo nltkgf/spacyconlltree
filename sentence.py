@@ -26,12 +26,6 @@ with open(filename) as input:
     doc = nlp(text)
     doc_con = con(text)
 
-    #print("dependency")
-    for token in nlp(text):
-      # print(token.text, token.lemma_, token.pos_, token.dep_, token.head.text)
-      if token.dep_.lower() == 'root':
-        print('root ', token.text)
-
     def sub_fun(x):
       conll = x._.conll_str
 
