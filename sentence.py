@@ -2,7 +2,8 @@ import spacy
 import spacy_udpipe
 import sys
 
-nlp = spacy.load("en_core_web_sm")
+#nlp = spacy.load("en_core_web_sm")
+nlp = spacy_udpipe.load("en")
 from spacy import displacy
 
 from spacy_conll import init_parser
