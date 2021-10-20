@@ -30,27 +30,26 @@ def getElements(trees):
       fun_elements.append(child[2])
       return(fun_elements)
 
+
+
 def writeFun(trees):
   fun_elements = getElements(trees)
-  fun_name = ':'.join(fun_elements[1:])
-  fun = fun_name + " : " + ' -> '.join(fun_elements) + ' -> UDS'
-  return(set(fun))
+  rep_nsubj_pass = ["nsubj_pass" if i == "nsubj:pass" else i for i in fun_elements]
+#   print(fun_elements)
+  fun_name = '_'.join(rep_nsubj_pass[1:])
+#   fun_name = '_'.join(fun_elements[1:])
+  fun = fun_name + " : " + ' -> '.join(rep_nsubj_pass) + ' -> UDS'
+  return(fun)
 
-def writeCat(filename):
-  with open(filename) as input:
-    for _ in range(4):
-      next(input)
-    texts = input.readlines()
-    for text in texts[:-1]:
-      text = text.rstrip()
-      # doc = nlp(text)
+# def writeCat(trees):
 
-      allTrees = getTree(text)
-      # print(writeFun(allTrees))
-      everyTree = writeFun(allTrees)
-      return everyTree
+with open(filename) as input:
+  for _ in range(4):
+    next(input)
+  texts = input.readlines()
+  for text in texts[:-1]:
+    text = text.rstrip()
+    # doc = nlp(text)
 
-# with open("ouputAllTress", "a") as f:
-#   for line in writeCat(filename):
-#     print >> f, line
-#     outputAllTrees.close()
+    allTrees = getTree(text)
+    print(writeFun(allTrees))
