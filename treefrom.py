@@ -23,21 +23,20 @@ def getTree(text):
       return trees
       #print(trees)
 
-# def funElements(trees):
-#   for tree in trees:
-#       fun_elements = []
-#       for child in tree['children']:
-#         fun_elements.append(child[2])
-#         return fun_elements
-
-def writeFun(trees):
+def getElements(trees):
   for tree in trees:
-    fun_elements = []
+    fun_elements = [tree['root'][2]]
     for child in tree['children']:
       fun_elements.append(child[2])
-      fun_name = '_'.join(fun_elements)
-      fun = fun_name + " : " + ' -> '.join([tree['root'][2]] + fun_elements) + ' -> UDS'
-      print(fun)
+      return(fun_elements)
+
+def writeFun(trees):
+  fun_elements = getElements(trees)
+  fun_name = '_'.join(fun_elements[1:])
+  fun = fun_name + " : " + ' -> '.join(fun_elements) + ' -> UDS'
+  return(fun)
+
+def writeCat(trees):
 
 with open(filename) as input:
   for _ in range(4):
@@ -48,4 +47,4 @@ with open(filename) as input:
     # doc = nlp(text)
 
     allTrees = getTree(text)
-    writeFun(allTrees)
+    print(writeFun(allTrees))
