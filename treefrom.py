@@ -33,18 +33,17 @@ def getElements(trees):
 def writeFun(trees):
   fun_elements = getElements(trees)
   fun_name = '_'.join(fun_elements[1:])
-  fun = fun_name + " : " + ' -> '.join(fun_elements) + ' -> UDS'
-  return(fun)
+  fun = fun_name + " _ " + ' -> '.join(fun_elements) + ' -> UDS'
+  return(set(fun))
 
 def writeCat(trees):
+  with open(filename) as input:
+    for _ in range(4):
+      next(input)
+    texts = input.readlines()
+    for text in texts[:-1]:
+      text = text.rstrip()
+      # doc = nlp(text)
 
-with open(filename) as input:
-  for _ in range(4):
-    next(input)
-  texts = input.readlines()
-  for text in texts[:-1]:
-    text = text.rstrip()
-    # doc = nlp(text)
-
-    allTrees = getTree(text)
-    print(writeFun(allTrees))
+      allTrees = getTree(text)
+      print(writeFun(allTrees))
