@@ -43,6 +43,8 @@ def writeFun(trees):
 
 # def writeCat(trees):
 
+# write all fun to file
+outAllFun = open("myOutFile", "a")
 with open(filename) as input:
   for _ in range(4):
     next(input)
@@ -53,3 +55,14 @@ with open(filename) as input:
 
     allTrees = getTree(text)
     print(writeFun(allTrees))
+    outAllFun.write(writeFun(allTrees))
+    outAllFun.write("\n")
+  outAllFun.close()
+  # take all the funs in myOutFile and remove duplicates, then put the unique funs into uniTypeFile
+  line_seen = set()
+  outfile = open("uniqTypesFile", "w")
+  for line in open("myOutFile", "r"):
+    if line not in line_seen:
+      outfile.write(line)
+      line_seen.add(line)
+  outfile.close()

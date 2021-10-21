@@ -1,0 +1,5 @@
+nsubj : root -> nsubj -> UDS
+advcl : root -> advcl -> UDS
+nsubj_pass : root -> nsubj_pass -> UDS
+det : root -> det -> UDS
+mark : root -> mark -> UDS
