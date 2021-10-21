@@ -6,8 +6,8 @@ nlp = spacy_udpipe.load("en")
 
 filename = sys.argv[-1]
 
-def removePunct(ls):
-  return [l for l in ls if l[2] != 'punct']
+# def removePunct(ls):
+#   return [l for l in ls if l[2] != 'punct']
 
 def getTree(text):
   for token in nlp(text):
@@ -17,27 +17,30 @@ def getTree(text):
     if token.dep_.lower() == 'root':
       Tree['root'] = [token.text, token.lemma_, token.dep_.lower(), token]
       unfiltered = [[child.text, child.lemma_, child.dep_, child] for child in token.children]
-      Tree['children'] = removePunct(unfiltered)
+      Tree['children'] = unfiltered
+#      Tree['children'] = removePunct(unfiltered)
       #print(Tree)
       trees.append(Tree)
       return trees
       #print(trees)
 
 def getElements(trees):
+  fun_elements = []
   for tree in trees:
-    fun_elements = [tree['root'][2]]
-    for child in tree['children']:
+    fun_elements.append(tree['root'][2])
+    children = tree['children']
+    # print(children)
+    for child in children:
+      # print('child ', child[2])
       fun_elements.append(child[2])
-      return(fun_elements)
-
-
+      # # print('fun ', fun_elements)
+  return(fun_elements)
 
 def writeFun(trees):
   fun_elements = getElements(trees)
   rep_nsubj_pass = ["nsubj_pass" if i == "nsubj:pass" else i for i in fun_elements]
-#   print(fun_elements)
-  fun_name = '_'.join(rep_nsubj_pass[1:])
-#   fun_name = '_'.join(fun_elements[1:])
+  fun_name = '_'.join(rep_nsubj_pass)
+  # fun_name = '_'.join(fun_elements)
   fun = fun_name + " : " + ' -> '.join(rep_nsubj_pass) + ' -> UDS'
   return(fun)
 

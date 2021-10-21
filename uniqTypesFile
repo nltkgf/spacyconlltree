@@ -3,3 +3,49 @@ advcl : root -> advcl -> UDS
 nsubj_pass : root -> nsubj_pass -> UDS
 det : root -> det -> UDS
 mark : root -> mark -> UDS
+root_nsubj : root -> nsubj -> UDS
+root_advcl : root -> advcl -> UDS
+root_nsubj_pass : root -> nsubj_pass -> UDS
+root_det : root -> det -> UDS
+root_mark : root -> mark -> UDS
+root_nsubj_obj_punct : root -> nsubj -> obj -> punct -> UDS
+root_nsubj_cop_det_acl:relcl_punct : root -> nsubj -> cop -> det -> acl:relcl -> punct -> UDS
+root_nsubj_cop_det_amod_conj_conj_conj_conj_conj_conj : root -> nsubj -> cop -> det -> amod -> conj -> conj -> conj -> conj -> conj -> conj -> UDS
+root_nsubj_cop_det_nmod_punct : root -> nsubj -> cop -> det -> nmod -> punct -> UDS
+root_nsubj_cop_advcl_conj_punct : root -> nsubj -> cop -> advcl -> conj -> punct -> UDS
+root_advcl_punct_nsubj_cop : root -> advcl -> punct -> nsubj -> cop -> UDS
+root_nsubj_cop : root -> nsubj -> cop -> UDS
+root_nsubj_obl : root -> nsubj -> obl -> UDS
+root_nsubj_pass_aux:pass_xcomp : root -> nsubj_pass -> aux:pass -> xcomp -> UDS
+root_nsubj_pass_aux:pass_xcomp_punct : root -> nsubj_pass -> aux:pass -> xcomp -> punct -> UDS
+root_advcl_punct_nsubj_cop_case_amod_nmod : root -> advcl -> punct -> nsubj -> cop -> case -> amod -> nmod -> UDS
+root_advcl_punct_nsubj_cop_det_amod : root -> advcl -> punct -> nsubj -> cop -> det -> amod -> UDS
+root_nsubj_cop_det_amod_compound : root -> nsubj -> cop -> det -> amod -> compound -> UDS
+root_nsubj_cop_det_amod_advcl : root -> nsubj -> cop -> det -> amod -> advcl -> UDS
+root_nsubj_pass_aux:pass_advmod_xcomp : root -> nsubj_pass -> aux:pass -> advmod -> xcomp -> UDS
+root_advcl_punct_nsubj_pass_aux:pass : root -> advcl -> punct -> nsubj_pass -> aux:pass -> UDS
+root_nsubj_pass_aux:pass_advmod_advcl : root -> nsubj_pass -> aux:pass -> advmod -> advcl -> UDS
+root_advcl_punct_nsubj_aux_punct_obl_punct_obj_punct : root -> advcl -> punct -> nsubj -> aux -> punct -> obl -> punct -> obj -> punct -> UDS
+root_nsubj_cop_obl_punct_parataxis : root -> nsubj -> cop -> obl -> punct -> parataxis -> UDS
+root_nsubj_cop_acl:relcl : root -> nsubj -> cop -> acl:relcl -> UDS
+root_advcl_punct_det_compound_amod_advcl : root -> advcl -> punct -> det -> compound -> amod -> advcl -> UDS
+root_advcl_punct_nsubj_aux_advmod_obj : root -> advcl -> punct -> nsubj -> aux -> advmod -> obj -> UDS
+root_det_compound_punct_nmod_punct_parataxis : root -> det -> compound -> punct -> nmod -> punct -> parataxis -> UDS
+root_advcl_punct_nsubj_aux_ccomp : root -> advcl -> punct -> nsubj -> aux -> ccomp -> UDS
+root_advcl_punct_nsubj_aux_advcl : root -> advcl -> punct -> nsubj -> aux -> advcl -> UDS
+root_advcl_punct_nsubj_aux_ccomp_punct : root -> advcl -> punct -> nsubj -> aux -> ccomp -> punct -> UDS
+root_nsubj_aux_obj_obl_obl : root -> nsubj -> aux -> obj -> obl -> obl -> UDS
+root_nsubj_aux_obj_obl_advmod_advcl : root -> nsubj -> aux -> obj -> obl -> advmod -> advcl -> UDS
+root_advcl_punct_nsubj_aux_obj_advmod_conj_punct : root -> advcl -> punct -> nsubj -> aux -> obj -> advmod -> conj -> punct -> UDS
+root_nsubj_pass_aux_aux:pass_obl_obl_advmod : root -> nsubj_pass -> aux -> aux:pass -> obl -> obl -> advmod -> UDS
+root_nsubj_pass_aux_aux:pass_obl_advmod : root -> nsubj_pass -> aux -> aux:pass -> obl -> advmod -> UDS
+root_nsubj_pass_aux_aux:pass_obl_obl_advcl : root -> nsubj_pass -> aux -> aux:pass -> obl -> obl -> advcl -> UDS
+root_nsubj_pass_aux_aux:pass : root -> nsubj_pass -> aux -> aux:pass -> UDS
+root_advcl_punct_nsubj_aux_advmod_obj_punct : root -> advcl -> punct -> nsubj -> aux -> advmod -> obj -> punct -> UDS
+root_nsubj_aux_obj_conj_punct_parataxis : root -> nsubj -> aux -> obj -> conj -> punct -> parataxis -> UDS
+root_nsubj_pass_aux_aux:pass_obl_conj : root -> nsubj_pass -> aux -> aux:pass -> obl -> conj -> UDS
+root_advcl_punct_nsubj_xcomp : root -> advcl -> punct -> nsubj -> xcomp -> UDS
+root_advcl_punct_nsubj_conj : root -> advcl -> punct -> nsubj -> conj -> UDS
+root_mark_nsubj_punct_nsubj_xcomp_punct : root -> mark -> nsubj -> punct -> nsubj -> xcomp -> punct -> UDS
+root_nsubj_aux_advmod_obj_advcl : root -> nsubj -> aux -> advmod -> obj -> advcl -> UDS
+root_nsubj_punct_obj_advcl : root -> nsubj -> punct -> obj -> advcl -> UDS
