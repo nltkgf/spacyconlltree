@@ -37,7 +37,7 @@ def getElements(trees):
 
 def replaceColon(el):
   if el.find(':') != -1:
-    return el.replace(':','_')
+    return el.replace(':','-')
   return el
 
 def writeFun(trees):
