@@ -83,7 +83,7 @@ with open(filename) as input:
   uniqCat.seek(0)
   for fun in open("uniqTypesFile", "r"):
     cat = fun.split(":",1)[0]
-    allCats = cat + ","
-    # print(len(allCats)) test to see there number of uniqCats = count in uniqTypesFiles
+    allCats = cat + "; "
+    # print(len(allCats)) #test to see there number of uniqCats = count in uniqTypesFiles
     uniqCat.write(allCats)
   uniqCat.close()
