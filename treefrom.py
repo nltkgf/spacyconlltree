@@ -78,3 +78,11 @@ with open(filename) as input:
       outfile.write(line)
       line_seen.add(line)
   outfile.close()
+  uniqCat = open("uniqCats", "w")
+  uniqCat.truncate(0)
+  uniqCat.seek(0)
+  for fun in open("uniqTypesFile", "r"):
+    cat = fun.split(":",1)[0]
+    allCats = cat + ","
+    uniqCat.write(allCats)
+  uniqCat.close()
