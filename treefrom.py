@@ -31,7 +31,6 @@ def getElements(trees):
     children = tree['children']
     # print(children)
     for child in children:
-      print('child ', child[2])
       fun_elements.append(replaceColon(child[2]))
   return(fun_elements)
 
