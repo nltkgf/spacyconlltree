@@ -6,8 +6,8 @@ nlp = spacy_udpipe.load("en")
 
 filename = sys.argv[-1]
 
-# def removePunct(ls):
-#   return [l for l in ls if l[2] != 'punct']
+def removePunct(ls):
+  return [l for l in ls if l[2] != 'punct']
 
 def getTree(text):
   for token in nlp(text):
@@ -18,7 +18,7 @@ def getTree(text):
       Tree['root'] = [token.text, token.lemma_, token.dep_.lower(), token]
       unfiltered = [[child.text, child.lemma_, child.dep_, child] for child in token.children]
       Tree['children'] = unfiltered
-#      Tree['children'] = removePunct(unfiltered)
+      Tree['children'] = removePunct(unfiltered)
       #print(Tree)
       trees.append(Tree)
       return trees
