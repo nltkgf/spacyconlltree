@@ -31,16 +31,21 @@ def getElements(trees):
     children = tree['children']
     # print(children)
     for child in children:
-      # print('child ', child[2])
-      fun_elements.append(child[2])
+      print('child ', child[2])
+      fun_elements.append(replaceColon(child[2]))
   return(fun_elements)
+
+def replaceColon(el):
+  if el.find(':') != -1:
+    return el.replace(':','_')
+  return el
 
 def writeFun(trees):
   fun_elements = getElements(trees)
-  rep_nsubj_pass = ["nsubj_pass" if i == "nsubj:pass" else i for i in fun_elements]
-  fun_name = '_'.join(rep_nsubj_pass)
-  # fun_name = '_'.join(fun_elements)
-  fun = fun_name + " : " + ' -> '.join(rep_nsubj_pass) + ' -> UDS'
+  # rep_nsubj_pass = ["nsubj_pass" if i == "nsubj:pass" else i for i in fun_elements]
+  # fun_name = '_'.join(rep_nsubj_pass)
+  fun_name = '_'.join(fun_elements)
+  fun = fun_name + " : " + ' -> '.join(fun_elements) + ' -> UDS'
   return(fun)
 
 # def writeCat(trees):
