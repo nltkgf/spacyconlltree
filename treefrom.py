@@ -33,7 +33,6 @@ def getElements(trees):
     for child in children:
       # print('child ', child[2])
       fun_elements.append(child[2])
-      # # print('fun ', fun_elements)
   return(fun_elements)
 
 def writeFun(trees):
@@ -48,6 +47,8 @@ def writeFun(trees):
 
 # write all fun to file
 outAllFun = open("myOutFile", "a")
+outAllFun.truncate(0)
+outAllFun.seek(0)
 with open(filename) as input:
   for _ in range(4):
     next(input)
@@ -57,13 +58,14 @@ with open(filename) as input:
     # doc = nlp(text)
 
     allTrees = getTree(text)
-    print(writeFun(allTrees))
     outAllFun.write(writeFun(allTrees))
     outAllFun.write("\n")
   outAllFun.close()
   # take all the funs in myOutFile and remove duplicates, then put the unique funs into uniTypeFile
   line_seen = set()
   outfile = open("uniqTypesFile", "w")
+  outfile.truncate(0)
+  outfile.seek(0)
   for line in open("myOutFile", "r"):
     if line not in line_seen:
       outfile.write(line)
