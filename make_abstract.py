@@ -89,22 +89,59 @@ for types in open("uniqTypesFile", "r"):
   uniqTypeNames.write(typeNames)
 uniqTypeNames.close()
 
-# create and abstract GF file with user input name and carry the unique functions from uniqTypesFile to this abstract GF file
-abstractGF = open (abstractGrammar + ".gf", "w")
-abstractGF.truncate(0)
-abstractGF.seek(0)
-for line in open("uniqTypesFile", "r"):
-    abstractGF.write( "\t\t" + line)
-# abstractGF.seek(-1)
-abstractGF.write("}")
-abstractGF.seek(0)
-abstractGF.write(
-          "abstract "
-        + abstractGrammar
-        + " = {"
-        + "\n\tcat"
-        + "\n\t\t" + "udToGF"
-        + "\n\tfun\n\t\t" + "uniqueFuns"
-        )
-abstractGF.close()
+# massage the ud_relations to only have the labels
+def extractUDLabels(line):
+  words = line.partition( ": ")
+  label = words[0]
+  # print(label)
+  # if label.find(':') != -1:
+  #   ind = label.index(":")
+  #   cap = label[ind + 1].upper()
+  #   newLabel = line[:ind] + cap + line [ind + 2:]
+  #   print(newLabel)
+  # return label
+  newLabel = replaceColon(label)
+  return(newLabel)
 
+def writeUDfile():
+  udLabels = open("udLabels", "w")
+  udLabels.truncate(0)
+  udLabels.seek(0)
+  for line in open("ud_relations", "r"):
+    labels = extractUDLabels(line)
+    labels = labels + ";"
+    udLabels.write("\n" +labels)
+  udLabels.close()
+
+
+  # create and abstract GF file with user input name and carry the unique functions from uniqTypesFile for Fun and labels from ukLabels to the cat to this abstract GF file
+def makeAbstractGF(userGrammar):
+  abstractGF = open (abstractGrammar + ".gf", "w")
+  abstractGF.truncate(0)
+  abstractGF.seek(0)
+
+  # abstractGF.seek(1)
+  # abstractGF.write("\n\n")
+  # abstractGF.seek(0)
+  abstractGF.write(
+            "abstract "
+          + abstractGrammar
+          + " = {"
+          + "\n\tcat"
+          )
+  # abstractGF.write("hello;")
+  for line in open("udLabels", "r"):
+    line = line
+    abstractGF.write("\t\t" + line)
+    # abstractGF.write(";")
+  abstractGF.write( "\n\tfun\n\t\t" )
+  for line in open("uniqTypesFile", "r"):
+      # lineEnd = ["UDS;" if i == "UDS" else i for i in line]
+      line = line.replace("UDS", "UDS;" )
+      abstractGF.write( "\t\t" + line)
+  abstractGF.write("}")
+  abstractGF.close()
+
+
+writeUDfile()
+makeAbstractGF(abstractGrammar)
