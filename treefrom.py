@@ -53,7 +53,7 @@ def writeFun(trees):
 def writeLabels(trees):
   fun_elements = getElements(trees)
   fun_name = '_'.join(fun_elements)
-  label = '#' + fun_name + " head " + " ".join(fun_elements) + '\n'
+  label = '#fun ' + fun_name + " head " + " ".join(fun_elements) + '\n'
   return label
 
 # def writeCat(trees):
