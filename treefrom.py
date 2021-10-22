@@ -50,12 +50,21 @@ def writeFun(trees):
   fun = fun_name + " : " + ' -> '.join(fun_elements) + ' -> UDS'
   return(fun)
 
+def writeLabels(trees):
+  fun_elements = getElements(trees)
+  fun_name = '_'.join(fun_elements)
+  label = '#' + fun_name + " head " + " ".join(fun_elements) + '\n'
+  return label
+
 # def writeCat(trees):
 
 # write all fun to file
 outAllFun = open("myOutFile", "a")
 outAllFun.truncate(0)
 outAllFun.seek(0)
+
+labels = open(filename + '.label', 'w+')
+
 with open(filename) as input:
   for _ in range(4):
     next(input)
@@ -65,8 +74,12 @@ with open(filename) as input:
     # doc = nlp(text)
 
     allTrees = getTree(text)
+
+    labels.write(writeLabels(allTrees))
+
     outAllFun.write(writeFun(allTrees))
     outAllFun.write("\n")
+  labels.close()
   outAllFun.close()
   # take all the funs in myOutFile and remove duplicates, then put the unique funs into uniTypeFile
   line_seen = set()
