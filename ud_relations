@@ -1,0 +1,63 @@
+acl: clausal modifier of noun (adnominal clause)
+acl:relcl: relative clause modifier
+advcl: adverbial clause modifier
+advmod: adverbial modifier
+advmod:emph: emphasizing word, intensifier
+advmod:lmod: locative adverbial modifier
+amod: adjectival modifier
+appos: appositional modifier
+aux: auxiliary
+aux:pass: passive auxiliary
+case: case marking
+cc: coordinating conjunction
+cc:preconj: preconjunct
+ccomp: clausal complement
+clf: classifier
+compound: compound
+compound:lvc: light verb construction
+compound:prt: phrasal verb particle
+compound:redup: reduplicated compounds
+compound:svc: serial verb compounds
+conj: conjunct
+cop: copula
+csubj: clausal subject
+csubj:pass: clausal passive subject
+dep: unspecified dependency
+det: determiner
+det:numgov: pronominal quantifier governing the case of the noun
+det:nummod: pronominal quantifier agreeing in case with the noun
+det:poss: possessive determiner
+discourse: discourse element
+dislocated: dislocated elements
+expl: expletive
+expl:impers: impersonal expletive
+expl:pass: reflexive pronoun used in reflexive passive
+expl:pv: reflexive clitic with an inherently reflexive verb
+fixed: fixed multiword expression
+flat: flat multiword expression
+flat:foreign: foreign words
+flat:name: names
+goeswith: goes with
+iobj: indirect object
+list: list
+mark: marker
+nmod: nominal modifier
+nmod:poss: possessive nominal modifier
+nmod:tmod: temporal modifier
+nsubj: nominal subject
+nsubj:pass: passive nominal subject
+nummod: numeric modifier
+nummod:gov: numeric modifier governing the case of the noun
+obj: object
+obl: oblique nominal
+obl:agent: agent modifier
+obl:arg: oblique argument
+obl:lmod: locative modifier
+obl:tmod: temporal modifier
+orphan: orphan
+parataxis: parataxis
+punct: punctuation
+reparandum: overridden disfluency
+root: root
+vocative: vocative
+xcomp: open clausal complement
