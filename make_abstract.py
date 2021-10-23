@@ -120,21 +120,17 @@ def makeAbstractGF(userGrammar):
   abstractGF.truncate(0)
   abstractGF.seek(0)
 
-  # abstractGF.seek(1)
-  # abstractGF.write("\n\n")
-  # abstractGF.seek(0)
   abstractGF.write(
             "abstract "
           + abstractGrammar
           + " = {"
           + "\n\tcat"
           )
-  # abstractGF.write("hello;")
+
   for line in open("udLabels", "r"):
-    line = line
-    abstractGF.write("\t\t" + line)
+     abstractGF.write("\t\t" + line)
     # abstractGF.write(";")
-  abstractGF.write( "\n\tfun\n\t\t" )
+  abstractGF.write( "\n\tfun\n" )
   for line in open("uniqTypesFile", "r"):
       # lineEnd = ["UDS;" if i == "UDS" else i for i in line]
       line = line.replace("UDS", "UDS;" )
