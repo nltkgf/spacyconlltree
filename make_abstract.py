@@ -109,7 +109,7 @@ def writeUDfile():
   udLabels.seek(0)
   for line in open("ud_relations", "r"):
     labels = extractUDLabels(line)
-    labels = labels + ";"
+    labels = labels + " ;"
     udLabels.write("\n" +labels)
   udLabels.close()
 
@@ -124,16 +124,18 @@ def makeAbstractGF(userGrammar):
             "abstract "
           + abstractGrammar
           + " = {"
-          + "\n\tcat"
+          + "\n\n\tflags"
+          + "\n\t\tstartcat = UDS ;"
+          + "\n\n\tcat"
           )
 
   for line in open("udLabels", "r"):
      abstractGF.write("\t\t" + line)
     # abstractGF.write(";")
-  abstractGF.write( "\n\tfun\n" )
+  abstractGF.write( "\n\n\tfun\n" )
   for line in open("uniqTypesFile", "r"):
       # lineEnd = ["UDS;" if i == "UDS" else i for i in line]
-      line = line.replace("UDS", "UDS;" )
+      line = line.replace("UDS", "UDS ;" )
       abstractGF.write( "\t\t" + line)
   abstractGF.write("}")
   abstractGF.close()
