@@ -4,7 +4,7 @@ import sys
 #nlp = spacy.load("en_core_web_sm")
 nlp = spacy_udpipe.load("en")
 
-filename = sys.argv[-1]
+filename = sys.argv[-2]
 
 def removePunct(ls):
   return [l for l in ls if l[2] != 'punct']
@@ -57,46 +57,24 @@ def writeLabels(trees):
   return label
 
 # def writeCat(trees):
+def getFuns():
+  allFuns = []
 
-# write all fun to file
-outAllFun = open("myOutFile", "a")
-outAllFun.truncate(0)
-outAllFun.seek(0)
+  with open(filename) as input:
+    for _ in range(4):
+      next(input)
+    texts = input.readlines()
+    for text in texts[:-1]:
+      text = text.rstrip()
 
-labels = open(filename + '.label', 'w+')
+      allTrees = getTree(text)
 
-with open(filename) as input:
-  for _ in range(4):
-    next(input)
-  texts = input.readlines()
-  for text in texts[:-1]:
-    text = text.rstrip()
-    # doc = nlp(text)
+      allFuns.append(writeFun(allTrees))
+  return allFuns
 
-    allTrees = getTree(text)
+def uniqueFuns():
+  outfile = getFuns()
 
-    labels.write(writeLabels(allTrees))
-
-    outAllFun.write(writeFun(allTrees))
-    outAllFun.write("\n")
-  labels.close()
-  outAllFun.close()
-  # take all the funs in myOutFile and remove duplicates, then put the unique funs into uniTypeFile
-  line_seen = set()
-  outfile = open("uniqTypesFile", "w")
-  outfile.truncate(0)
-  outfile.seek(0)
-  for line in open("myOutFile", "r"):
-    if line not in line_seen:
-      outfile.write(line)
-      line_seen.add(line)
-  outfile.close()
-  uniqCat = open("uniqCats", "w")
-  uniqCat.truncate(0)
-  uniqCat.seek(0)
-  for fun in open("uniqTypesFile", "r"):
-    cat = fun.split(":",1)[0]
-    allCats = cat + "; "
-    # print(len(allCats)) #test to see there number of uniqCats = count in uniqTypesFiles
-    uniqCat.write(allCats)
-  uniqCat.close()
+  # remove duplicate funs
+  outfile = list(dict.fromkeys(outfile))
+  return sorted(outfile)
