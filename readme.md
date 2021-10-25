@@ -1,3 +1,19 @@
+Instructions:
+
+Follow steps 1 and 2 as below. You will now have an input file.
+
+run:
+
+python make_abstract.py input Name_Of_Abstract
+
+eg. if you want to get an gf abstract file called Abstract.gf and a labels file called Abstract.label, do:
+
+python make_abstract.py input Abstract
+
+this should generate an Abstract file, and a labels file for you.
+
+---
+
 AIM: Getting predicates into Abstract Syntax Trees (AST)
 
 1. To activate the virtual environment, do `source pdpaenv/bin/activate`. Ensure you have the necessary libraries
