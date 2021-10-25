@@ -47,14 +47,9 @@ def writeFun(trees):
   # rep_nsubj_pass = ["nsubj_pass" if i == "nsubj:pass" else i for i in fun_elements]
   # fun_name = '_'.join(rep_nsubj_pass)
   fun_name = '_'.join(fun_elements)
+  fun_elements = [e.replace('case', 'case_') for e in fun_elements]
   fun = fun_name + " : " + ' -> '.join(fun_elements) + ' -> UDS'
   return(fun)
-
-def writeLabels(trees):
-  fun_elements = getElements(trees)
-  fun_name = '_'.join(fun_elements)
-  label = '#fun ' + fun_name + " head " + " ".join(fun_elements[1:]) + '\n'
-  return label
 
 # def writeCat(trees):
 def getFuns():

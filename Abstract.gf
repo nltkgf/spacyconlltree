@@ -145,7 +145,7 @@ abstract Abstract = {
 		root_advcl_nsubj_aux_obl_obj : root -> advcl -> nsubj -> aux -> obl -> obj -> UDS ;
 		root_advcl_nsubj_conj : root -> advcl -> nsubj -> conj -> UDS ;
 		root_advcl_nsubj_cop : root -> advcl -> nsubj -> cop -> UDS ;
-		root_advcl_nsubj_cop_case_amod_nmod : root -> advcl -> nsubj -> cop -> case -> amod -> nmod -> UDS ;
+		root_advcl_nsubj_cop_case_amod_nmod : root -> advcl -> nsubj -> cop -> case_ -> amod -> nmod -> UDS ;
 		root_advcl_nsubj_cop_det_amod : root -> advcl -> nsubj -> cop -> det -> amod -> UDS ;
 		root_advcl_nsubj_xcomp : root -> advcl -> nsubj -> xcomp -> UDS ;
 		root_det_compound_nmod_parataxis : root -> det -> compound -> nmod -> parataxis -> UDS ;
