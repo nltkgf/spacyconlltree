@@ -37,3 +37,13 @@ AIM: Getting predicates into Abstract Syntax Trees (AST)
 5. Part 4: Extract the parent(root) indicated by the first column; and children (where there is a "6" in line) indicated by the second column into a bag with their gf and ud labels.
    1. Extact ....
    2. Draw the AST of these individual predicates with .. .
+
+
+
+Files required:
+1. readme.md
+2. pdpa_predicates.csv
+3. pdpa_read_predicates.py
+4. sentence.py
+5. make_abstract.py
+6. treefrom.py
