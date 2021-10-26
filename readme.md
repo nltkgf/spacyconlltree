@@ -1,50 +1,50 @@
 Instructions:
+AIM: Getting predicates into Abstract Syntax Trees (AST) **WIP**
 
-Follow steps 1 and 2 as below. You will now have an input file.
+1. Ensure you have the necessary libraries
+   2. `pip install pandas`
+   3. `pip install spacy`
+   4. `pip install spacy_udpipe`
+   5. download the necessary spacy model `python -m spacy download en_core_web_sm`
+   6. `pip install spacy_conll`
+2. To work in a virtual environment, do
+   1. `pip install virtualenv`
+   2. `virtualenv pdpaenv`
+   3. `source pdpaenv/bin/activate`
+3. *For predicates extraction* Extract the predicates from a csv into a file for subsequent processing
+   1. Here, the PDPA predicates are in `pdpa_predicates.csv` under the field *Predicates*
+   2. To pull all the predicates into a file "input", do `python pdpa_read_predicates.py > input`
+   3. The first 4 lines contains some meta info of the contents.
+4. *For making conllu* <Option> Feed the contents of the `input` file (which contains the predicates) and transform them into a conllu format
+   1. `python sentence.py input` will output the predicates in `input` into a conllu format at `spacy.conllu`
 
-run:
+~~4. Part 3: Use the GF-UD to make show the UD for all the predicates, presenting them in GF labels~~
+   ~~1. Make a copy of the repo from https://github.com/GrammaticalFramework/gf-ud locally~~
+   ~~2. Go the the repo directory, pipe the conllu format output file created that is residing into its directory into the gf-ud directory using ud2gf with the appropriate grammars using `cat /Code/spacyconlltree/spacy.conllu | stack run gf-ud ud2gf grammars/MiniLang Eng Utt ut > spacyOP` . [ Utt is arbitrary; It could have been VP or other RGL phrase]~~
+   ~~3. `Ctrl C` to terminate. But it is a horribly long process~~
+   ~~4. spacyOP will contain the relationship of parent-children-grandchildren relationships of all the predicates.~~
 
-python make_abstract.py input Name_Of_Abstract
+5. *For Create GF files and label file* Create an abstract gf, a concrete gf file and a labels file
+   1. `python make_GF_files.py input Name_Of_Abstract` eg. run this command `python make_GF_files.py input Abstract` if you want to get
+      1. an gf abstract file (Abstract.gf),
+      2. a gf concrete file (AbstractEng.gf) and
+      3. a labels file called (Abstract.label).
+      4. For info:
+         1. Purpose of `treefrom` module
+            1. Extract the parent(root) and children for the AST functions in all the predicates that was fed with `input` e.g `root_nsubj_obj head-> nsubj -> obj -> UDS`
+            2. Compile all these to only retain the unique functions.
+         2. Making the abstract gf, concrete gf file and labels file:
+            1. With the labels from ud_relations and the generated unique functions, the contents are then processed to produce a pair of abstract gf and its corresponding concrete gf file.
+            2. A labels file is also created for reference.
 
-eg. if you want to get an gf abstract file called Abstract.gf and a labels file called Abstract.label, do:
+6. Overview for information:
 
-python make_abstract.py input Abstract
-
-this should generate an Abstract file, and a labels file for you.
-
----
-
-AIM: Getting predicates into Abstract Syntax Trees (AST)
-
-1. To activate the virtual environment, do `source pdpaenv/bin/activate`. Ensure you have the necessary libraries
-   1. `pip install pandas`
-   2. `pip install spacy`
-   3. `pip install spacy_udpipe`
-   4. download the necessary spacy model `python -m spacy download en_core_web_sm`
-   5. `pip install spacy_conll`
-2. Part 1: Read the predicates into a file for subsequent feeding
-   1. PDPA predicates are in pdpa_predicates.csv
-   2. To output all the predicates into a file "input", do `python pdpa_read_predicates.py > input`
-3. Part 2: Feed the contents of the input files (which contains the predicates) and transform them into a conllu format
-   1. `python sentence.py input` will output the predicates in "input" into a conllu format at spacy.conllu
-
-4. Part 3: Use the GF-UD to make show the UD for all the predicates, presenting them in GF labels
-   1. Make a copy of the repo from https://github.com/GrammaticalFramework/gf-ud locally
-   2. Go the the repo directory, pipe the conllu format output file created that is residing into its directory into the gf-ud directory using ud2gf with the appropriate grammars using `cat /Code/spacyconlltree/spacy.conllu | stack run gf-ud ud2gf grammars/MiniLang Eng Utt ut > spacyOP` . [ Utt is arbitrary; It could have been VP or other RGL phrase]
-   3. `Ctrl C` to terminate. But it is a horribly long process
-   4. spacyOP will contain the relationship of parent-children-grandchildren relationships of all the predicates.
-
-5. Part 4: Extract the parent(root) indicated by the first column; and children (where there is a "6" in line) indicated by the second column into a bag with their gf and ud labels.
-   1. Extact ....
-   2. Draw the AST of these individual predicates with .. .
-
-
-
-Files required:
-1. readme.md
-2. pdpa_predicates.csv
-3. pdpa_read_predicates.py
-4. sentence.py
-5. make_abstract.py
-6. treefrom.py
-7. ud_relations
+|   	|  Required 	            | Section  	                           | Comments   	                              |
+|---	|---	                     |---	                                 |---	                                       |
+|  1 	| readme.md  	            |  - 	                                 | Instructions and information 	            |
+|  2 	| make_GF_files.py 	      | For Create GF files and label file   | With the labels from ud_relations and the generated unique functions, the contents are then processed to produce a pair of abstract gf and its corresponding concrete gf file. A labels file is also created for reference. 	|
+|  3 	| pdpa_predicates.csv  	   | For predicates extraction            | Predicates are in the field "Predicates  	|
+|  4 	| pdpa_read_predicates.py  | For predicates extraction            | Extract the predicates from pdpa_predicates.csv to a specified file (input) 	|
+|  5 	| sentence.py  	         | For making conllu   	               | Process the extracted predicates in input to a conllu format  	|
+|  6 	| treefrom.py  	         | For Create GF files and label file   | Obtain the parent(root) and children tokens to make the functions underlying each predicates. Then narrow these down to unique functions for writing into the .label file.	|
+|  7 	| ud_relations  	         | For Create GF files and label file   |  These are the [universal dependencies relations](https://universaldependencies.org/u/dep/#:~:text=alphabetical%20listing) 	|   	
