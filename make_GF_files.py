@@ -84,17 +84,17 @@ print('load abstract ', abstractGrammar)
 # collect the names of the unitque types from uniqTypesFile into a file "uniqTypeNames"
 
 #save unique type names as a variable
-def getUsedCats():
-  #uniqTypeNames = open("uniqTypeNames", "+w")
-  # print('get unique ', treefrom.uniqueFuns())
-  for types in treefrom.uniqueFuns():
-    typeName = (types.split(":",1)[0]).split('_')
-    #typeNames = typeName + "; "
-    # print(len(typeNames))
-    # add everything from typeName to list of uniqTypeNames
-    uniqTypeNames.append(typeName)
-    # dupli
-  return uniqTypeNames
+# def getUsedCats():
+#   #uniqTypeNames = open("uniqTypeNames", "+w")
+#   # print('get unique ', treefrom.uniqueFuns())
+#   for types in treefrom.uniqueFuns():
+#     typeName = (types.split(":",1)[0]).split('_')
+#     #typeNames = typeName + "; "
+#     # print(len(typeNames))
+#     # add everything from typeName to list of uniqTypeNames
+#     uniqTypeNames.append(typeName)
+#     # dupli
+#   return uniqTypeNames
 
 # massage the ud_relations to only have the labels
 def extractUDLabels(line):
@@ -126,8 +126,11 @@ def getCats():
     # udLabels.write("\n" +labels)
   # udLabels.close()
 
-def coerceFuns(cat):
+def coerceFunsAbs(cat):
   return [(cat + "_"), ":", "X", "->", cat, ";"]
+
+def coerceFunsContrete(cat):
+  return [(cat + "_"), "x", "= TODO ;"]
 
 def writeLabels():
   with open(abstractGrammar + '.label', 'w+') as labelFile:
@@ -142,9 +145,6 @@ def makeAbstractGF(userGrammar):
   abstractGF = open (abstractGrammar + ".gf", "w+")
   abstractGF.truncate(0)
   abstractGF.seek(0)
-
- # writeUDfile()
-
   abstractGF.write(
             "abstract "
           + abstractGrammar
@@ -156,7 +156,7 @@ def makeAbstractGF(userGrammar):
 
   for line in getCats():
     abstractGF.write("\n\t\t" + line)
-    abstractGF.write(";")
+    abstractGF.write(" ;")
 
   abstractGF.write(
     "\n\n\t -- coercion funs"
@@ -165,7 +165,7 @@ def makeAbstractGF(userGrammar):
 
   # get coercedFuns
   for line in getCats():
-    abstractGF.write("\n\t\t" + " ".join(coerceFuns(line)))
+    abstractGF.write("\n\t\t" + " ".join(coerceFunsAbs(line)))
 
   abstractGF.write( "\n\n\tfun\n" )
   print('length of unique funs ', len(treefrom.uniqueFuns()))
@@ -176,5 +176,52 @@ def makeAbstractGF(userGrammar):
   abstractGF.write("}")
   abstractGF.close()
 
-# writeUDfile()
+
+
+def makeConcreteGF(userGrammar):
+  concreteGF = open (abstractGrammar+ "Eng.gf", "w+")
+  concreteGF.truncate(0)
+  concreteGF.seek(0)
+  concreteGF.write(
+          "concrete "
+        + abstractGrammar
+        + "Eng of "
+        + abstractGrammar
+        + " = {"
+        + "\n\n\tlincat"
+        + "\n"
+        )
+  for line in getCats():
+    concreteGF.write("\n\t\t"
+                    + line
+                    + "= X ;"
+                    )
+  concreteGF.write(
+         "\n\n\tlin"
+        + "\n\t\t-- the coercion funs"
+        )
+  for line in getCats():
+    concreteGF.write("\n\t\t" + " ".join(coerceFunsContrete(line)))
+
+  concreteGF.write("\n\n\t\t-- the actual funs")
+
+  for line in treefrom.uniqueFuns():
+      function  = line.partition( ": ")
+      fun = function[2]
+      concreteGF.write("\n\t\t-- : " + fun)
+      funName = function[0]
+      simpleFuns = fun.replace("-> ", "")
+      argFuns = simpleFuns.replace("UDS", "")
+      concreteGF.write("\n\t\t"
+                      + funName
+                      + argFuns
+                      + "= TODO ;")
+  concreteGF.write("\n}")
+  concreteGF.close()
+
+
+
+
 makeAbstractGF(abstractGrammar)
+makeConcreteGF(abstractGrammar)
+
