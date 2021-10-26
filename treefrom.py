@@ -1,7 +1,6 @@
 import spacy_udpipe
 import sys
 
-#nlp = spacy.load("en_core_web_sm")
 nlp = spacy_udpipe.load("en")
 
 filename = sys.argv[-2]
@@ -13,16 +12,13 @@ def getTree(text):
   for token in nlp(text):
     trees = []
     Tree = {}
-    # print(token.text, token.lemma_, token.pos_, token.dep_, token.head.text)
     if token.dep_.lower() == 'root':
-      Tree['root'] = [token.text, token.lemma_, token.dep_.lower(), token]
-      unfiltered = [[child.text, child.lemma_, child.dep_, child] for child in token.children]
+      Tree['root'] = [token.text, token.lemma_, token.dep_.lower(), token, text]
+      unfiltered = [[child.text, child.lemma_, child.dep_, child, text] for child in token.children]
       Tree['children'] = unfiltered
       Tree['children'] = removePunct(unfiltered)
-      #print(Tree)
       trees.append(Tree)
       return trees
-      #print(trees)
 
 # get different elements from token [text, lemma, dep, whole token]
 def getElements(trees, el):
@@ -30,9 +26,9 @@ def getElements(trees, el):
   for tree in trees:
     fun_elements.append(tree['root'][el])
     children = tree['children']
-    # print(children)
     for child in children:
-      fun_elements.append(replaceColon(child[el]))
+      if isinstance(child[el], int) == False:
+        fun_elements.append(replaceColon(child[el]))
   return(fun_elements)
 
 def replaceColon(el):
@@ -45,12 +41,10 @@ def replaceColon(el):
 
 def writeFun(trees):
   fun_elements = getElements(trees, 2)
-  # rep_nsubj_pass = ["nsubj_pass" if i == "nsubj:pass" else i for i in fun_elements]
-  # fun_name = '_'.join(rep_nsubj_pass)
   fun_name = '_'.join(fun_elements)
   fun_elements = [e.replace('case', 'case_') for e in fun_elements]
   fun = fun_name + " : " + ' -> '.join(fun_elements) + ' -> UDS'
-  return(fun)
+  return [fun, getElements(trees, 4)[0]]
 
 # def writeCat(trees):
 def getFuns():
@@ -66,11 +60,17 @@ def getFuns():
       allTrees = getTree(text)
 
       allFuns.append(writeFun(allTrees))
+
   return allFuns
 
 def uniqueFuns():
-  outfile = getFuns()
+  outfile = []
 
-  # remove duplicate funs
-  outfile = list(dict.fromkeys(outfile))
+  fun_dict = {}
+  for f in getFuns():
+    if f[0] not in fun_dict:
+      fun_dict[f[0]] = f[1]
+  fun_list = []
+  for f,s in fun_dict.items():
+    outfile.append([f, s])
   return sorted(outfile)
