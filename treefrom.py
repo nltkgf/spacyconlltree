@@ -24,14 +24,15 @@ def getTree(text):
       return trees
       #print(trees)
 
-def getElements(trees):
+# get different elements from token [text, lemma, dep, whole token]
+def getElements(trees, el):
   fun_elements = []
   for tree in trees:
-    fun_elements.append(tree['root'][2])
+    fun_elements.append(tree['root'][el])
     children = tree['children']
     # print(children)
     for child in children:
-      fun_elements.append(replaceColon(child[2]))
+      fun_elements.append(replaceColon(child[el]))
   return(fun_elements)
 
 def replaceColon(el):
@@ -43,7 +44,7 @@ def replaceColon(el):
   return el
 
 def writeFun(trees):
-  fun_elements = getElements(trees)
+  fun_elements = getElements(trees, 2)
   # rep_nsubj_pass = ["nsubj_pass" if i == "nsubj:pass" else i for i in fun_elements]
   # fun_name = '_'.join(rep_nsubj_pass)
   fun_name = '_'.join(fun_elements)
