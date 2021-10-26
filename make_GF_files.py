@@ -92,7 +92,7 @@ def makeConcreteGF(userGrammar):
   for line in getCats():
     concreteGF.write("\n\t\t"
                     + line
-                    + "= X ;"
+                    + " = X ;"
                     )
   concreteGF.write(
          "\n\n\tlin"
