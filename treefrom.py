@@ -1,6 +1,7 @@
 import spacy_udpipe
 import sys
 
+spacy_udpipe.download("en")
 nlp = spacy_udpipe.load("en")
 
 filename = sys.argv[-2]
