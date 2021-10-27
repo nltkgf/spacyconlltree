@@ -144,6 +144,7 @@ def makeBak():
           dest = shutil.copyfile(source, destination)
 
 makeBak()
+writeLabels()
 makeAbstractGF(abstractGrammar)
 makeConcreteGF(abstractGrammar)
 
