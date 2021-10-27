@@ -148,7 +148,23 @@ def makeBak():
           destination = os.path.join(backupDirectoryLabels, filename+"_"+timestr)
           dest = shutil.copyfile(source, destination)
 
+def removePrevLabelFiles():
+  currDirectory = "./"
+  for filename in os.listdir(currDirectory):
+    if filename.endswith(".label"):
+      os.remove(filename)
+def removePrevGFFiles():
+  currDirectory = "./"
+  for filename in os.listdir(currDirectory):
+    if filename.endswith(".gf"):
+      os.remove(filename)
+
+def removeAllPrevFiles():
+  removePrevLabelFiles()
+  removePrevGFFiles()
+
 makeBak()
+removeAllPrevFiles()
 writeLabels()
 makeAbstractGF(abstractGrammar)
 makeConcreteGF(abstractGrammar)
