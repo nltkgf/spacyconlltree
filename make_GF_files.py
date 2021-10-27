@@ -110,13 +110,40 @@ def makeConcreteGF(userGrammar):
       concreteGF.write("\n\t\t"
                       + funName
                       + argFuns
-                      + "= TODO ;")
+                      + "= TODO ;"
+                      )
   concreteGF.write("\n}")
   concreteGF.close()
 
 
+# Create datetime for backup files (abstract, concrete, labels)
+import time
+timestr = time.strftime("%Y%m%d-%H%M%S")
+import os
+import shutil
 
+def makeBak():
+  currDirectory = "./"
+  backupDirectoryAbstract = "./backupFiles/Abstracts/"
+  backupDirectoryConcrete = "./backupFiles/Concretes/"
+  backupDirectoryLabels = "./backupFiles/Labels/"
+  for filename in os.listdir(currDirectory):
+      if filename.startswith(abstractGrammar+".gf"):
+          source = os.path.join(currDirectory,filename)
+          destination = os.path.join(backupDirectoryAbstract, filename+"_"+timestr)
+          dest = shutil.copyfile(source, destination)
+  for filename in os.listdir(currDirectory):
+      if filename.startswith(abstractGrammar+"Eng"):
+          source = os.path.join(currDirectory,filename)
+          destination = os.path.join(backupDirectoryConcrete, filename+"_"+timestr)
+          dest = shutil.copyfile(source, destination)
+  for filename in os.listdir(currDirectory):
+      if filename.endswith(".label"):
+          source = os.path.join(currDirectory,filename)
+          destination = os.path.join(backupDirectoryLabels, filename+"_"+timestr)
+          dest = shutil.copyfile(source, destination)
 
+makeBak()
 makeAbstractGF(abstractGrammar)
 makeConcreteGF(abstractGrammar)
 
