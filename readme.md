@@ -29,15 +29,17 @@ AIM: Getting predicates into Abstract Syntax Trees (AST) **WIP**
       1. an gf abstract file (Abstract.gf),
       2. a gf concrete file (AbstractEng.gf) and
       3. a labels file called (Abstract.label).
-      4. For info:
-         1. Purpose of `treefrom` module
-            1. Extract the parent(root) and children for the AST functions in all the predicates that was fed with `input` e.g `root_nsubj_obj head-> nsubj -> obj -> UDS`
-            2. Compile all these to only retain the unique functions.
-         2. Making the abstract gf, concrete gf file and labels file:
-            1. With the labels from ud_relations and the generated unique functions, the contents are then processed to produce a pair of abstract gf and its corresponding concrete gf file.
-            2. A labels file is also created for reference.
+   
+6. For info:
+   1. Purpose of `treefrom` module
+      1. Extract the parent(root) and children for the AST functions in all the predicates that was fed with `input` e.g `root_nsubj_obj head-> nsubj -> obj -> UDS`
+      2. Compile all these to only retain the unique functions.
+   2. Making the abstract gf, concrete gf file and labels file:
+      1. With the labels from ud_relations and the generated unique functions, the contents are then processed to produce a pair of abstract gf and its corresponding concrete gf file.
+      2. A labels file is also created for reference.
+   3. backupFiles folder contains all the backup copies of gf abstract, gf concrete and labels files.
 
-6. Overview for information:
+7. Overview for information:
 
 |   	|  Required 	            | Section  	                           | Comments   	                              |
 |---	|---	                     |---	                                 |---	                                       |
