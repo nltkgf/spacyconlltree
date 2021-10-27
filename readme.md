@@ -2,11 +2,11 @@ Instructions:
 AIM: Getting predicates into Abstract Syntax Trees (AST) **WIP**
 
 1. Ensure you have the necessary libraries
-   2. `pip install pandas`
-   3. `pip install spacy`
-   4. `pip install spacy_udpipe`
-   5. download the necessary spacy model `python -m spacy download en_core_web_sm`
-   6. `pip install spacy_conll`
+   1. `pip install pandas`
+   2. `pip install spacy`
+   3. `pip install spacy_udpipe`
+   4. download the necessary spacy model `python -m spacy download en_core_web_sm`
+   5. `pip install spacy_conll`
 2. To work in a virtual environment, do
    1. `pip install virtualenv`
    2. `virtualenv pdpaenv`
@@ -47,4 +47,4 @@ AIM: Getting predicates into Abstract Syntax Trees (AST) **WIP**
 |  4 	| pdpa_read_predicates.py  | For predicates extraction            | Extract the predicates from pdpa_predicates.csv to a specified file (input) 	|
 |  5 	| sentence.py  	         | For making conllu   	               | Process the extracted predicates in input to a conllu format  	|
 |  6 	| treefrom.py  	         | For Create GF files and label file   | Obtain the parent(root) and children tokens to make the functions underlying each predicates. Then narrow these down to unique functions for writing into the .label file.	|
-|  7 	| ud_relations  	         | For Create GF files and label file   |  These are the [universal dependencies relations](https://universaldependencies.org/u/dep/#:~:text=alphabetical%20listing) 	|   	
+|  7 	| ud_relations  	         | For Create GF files and label file   |  These are the [universal dependencies relations](https://universaldependencies.org/u/dep/#:~:text=alphabetical%20listing) 	|
