@@ -1,6 +1,10 @@
 import spacy_udpipe
 import sys
 import treefrom
+import time
+import os
+import shutil
+from pathlib import Path
 
 filename = sys.argv[-2]
 print('load ', filename)
@@ -115,18 +119,19 @@ def makeConcreteGF(userGrammar):
   concreteGF.write("\n}")
   concreteGF.close()
 
-
 # Create datetime for backup files (abstract, concrete, labels)
-import time
 timestr = time.strftime("%Y%m%d-%H%M%S")
-import os
-import shutil
+
+def makeDir(ls):
+  for l in ls:
+    Path(l).mkdir(parents=True, exist_ok=True)
 
 def makeBak():
   currDirectory = "./"
   backupDirectoryAbstract = "./backupFiles/Abstracts/"
   backupDirectoryConcrete = "./backupFiles/Concretes/"
   backupDirectoryLabels = "./backupFiles/Labels/"
+  makeDir([backupDirectoryAbstract, backupDirectoryConcrete, backupDirectoryLabels])
   for filename in os.listdir(currDirectory):
       if filename.startswith(abstractGrammar+".gf"):
           source = os.path.join(currDirectory,filename)
