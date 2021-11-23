@@ -18,10 +18,10 @@ filename = sys.argv[-1]
 open('spacy.conllu', 'w').close()
 
 with open(filename) as input:
-  for _ in range(4):
-    next(input)
+  # for _ in range(4):
+  #   next(input)
   texts = input.readlines()
-  for text in texts[:-1]:
+  for text in texts: #[:-1]:
     text = text.rstrip()
     doc = nlp(text)
     doc_con = con(text)
@@ -36,34 +36,37 @@ with open(filename) as input:
         # if not empty \n
 
         line_list = line.split()
-        if ((len(checkEmpty) > 0) and (int(line_list[0]) == 1)):
-          output.write('\n')
-        if (line_list[3] == 'NOUN'):
-          make_fun = "FUN=" + line_list[2] + "_N"
-        elif (line_list[3] == 'ADJ'):
-          make_fun = "FUN=" + line_list[2] + "_A"
-        elif (line_list[3] == 'DET'):
-          if (line_list[2] == 'the'):
-            make_fun = "FUN=DefArt"
-          else:
-            make_fun = "FUN=" + line_list[2] + "_Det"
-        elif (line_list[3] == 'VERB'):
-          make_fun = "FUN=" + line_list[2] + line_list[4]
-        elif (line_list[3] == 'PRON'):
-          make_fun = "FUN=" + line_list[3] + line_list[4]
-        elif (line_list[3] == 'CCONJ'):
-          make_fun = "FUN=" + line_list[2] + "_Conj"
-        elif (line_list[3] == 'AUX' and line_list[2] == 'be'):
-          make_fun = "FUN=UseComp"
+        if not line_list:
+          break
         else:
-          make_fun = "_"
-        line_list[-1] = make_fun + "\n"
-        morpho(line_list)
-        lowerroot(line_list)
-        list_to_line = "\t".join(line_list)
+          if ((len(checkEmpty) > 0) and (int(line_list[0]) == 1)):
+            output.write('\n')
+          if (line_list[3] == 'NOUN'):
+            make_fun = "FUN=" + line_list[2] + "_N"
+          elif (line_list[3] == 'ADJ'):
+            make_fun = "FUN=" + line_list[2] + "_A"
+          elif (line_list[3] == 'DET'):
+            if (line_list[2] == 'the'):
+              make_fun = "FUN=DefArt"
+            else:
+              make_fun = "FUN=" + line_list[2] + "_Det"
+          elif (line_list[3] == 'VERB'):
+            make_fun = "FUN=" + line_list[2] + line_list[4]
+          elif (line_list[3] == 'PRON'):
+            make_fun = "FUN=" + line_list[3] + line_list[4]
+          elif (line_list[3] == 'CCONJ'):
+            make_fun = "FUN=" + line_list[2] + "_Conj"
+          elif (line_list[3] == 'AUX' and line_list[2] == 'be'):
+            make_fun = "FUN=UseComp"
+          else:
+            make_fun = "_"
+          line_list[-1] = make_fun + "\n"
+          morpho(line_list)
+          lowerroot(line_list)
+          list_to_line = "\t".join(line_list)
 
-        output.writelines(list_to_line)
-        output.close()
+          output.writelines(list_to_line)
+          output.close()
 
     def morpho(line_list):
       if (line_list[1] == 'the'):
