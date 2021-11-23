@@ -55,10 +55,10 @@ def getFuns():
   allFuns = []
 
   with open(filename) as input:
-    for _ in range(4):
-      next(input)
+    # for _ in range(4):
+    #   next(input)
     texts = input.readlines()
-    for text in texts[:-1]:
+    for text in texts[:]:
       text = text.rstrip()
 
       allTrees = getTree(text)
