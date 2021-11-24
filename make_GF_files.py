@@ -52,6 +52,8 @@ def makeAbstractGF(userGrammar):
           + "\n\n\tflags"
           + "\n\t\tstartcat = UDS ;"
           + "\n\n\tcat"
+          + "\n\t\tUDS ;"
+          + "\n\t\tX ;"
           )
 
   for line in getCats():
@@ -88,12 +90,13 @@ def makeConcreteGF(userGrammar):
         + abstractGrammar
         + " = {"
         + "\n\n\tlincat"
-        + "\n"
+        + "\n\n\t\tUDS = TODO;"
+        + "\n\t\tX = TODO;"
         )
   for line in getCats():
     concreteGF.write("\n\t\t"
                     + line
-                    + " = X ;"
+                    + " = TODO ;"
                     )
   concreteGF.write(
          "\n\n\tlin"
@@ -114,7 +117,7 @@ def makeConcreteGF(userGrammar):
       concreteGF.write("\n\t\t"
                       + funName
                       + argFuns
-                      + "= TODO ;"
+                      + " = TODO ;"
                       )
   concreteGF.write("\n}")
   concreteGF.close()
