@@ -47,7 +47,7 @@ def writeFun(trees):
   fun_elements = getElements(trees, 2)
   fun_name = '_'.join(fun_elements)
   fun_elements = [e.replace('case', 'case_') for e in fun_elements]
-  fun = fun_name + " : " + ' -> '.join(fun_elements) + ' -> UDS'
+  fun = fun_name + " : " + ' -> '.join(fun_elements) #+ ' -> UDS'
   return [fun, getElements(trees, 4)[0]]
 
 # def writeCat(trees):
