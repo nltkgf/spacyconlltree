@@ -38,7 +38,10 @@ def writeLabels():
   with open(abstractGrammar + '.label', 'w+') as labelFile:
     for eachFun in treefrom.uniqueFuns():
       eachLabel = "#fun " + eachFun[0].replace(': root ', 'head').replace("->", "") # TODO: return type should not be in the labels
-      labelFile.write(eachLabel + "\n")
+      start = eachLabel.partition("head")[0] + eachLabel.partition("head")[1]
+      trail = eachLabel.partition("head")[2]
+      trailNew = treefrom.toUDelement(trail)
+      labelFile.write(start+ trailNew +"\n")
 
 # create an abstract GF file with user entered name
 def makeAbstractGF(userGrammar):

@@ -78,3 +78,7 @@ def uniqueFuns():
   for f,s in fun_dict.items():
     outfile.append([f, s])
   return sorted(outfile)
+
+def toUDelement(word):
+  newWord = ''.join([':'+x.lower() if x.isupper() else x for x in word])
+  return newWord
