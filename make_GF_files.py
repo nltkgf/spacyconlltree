@@ -75,7 +75,7 @@ def makeAbstractGF(userGrammar):
   abstractGF.write( "\n\n\tfun\n" )
   print('length of unique funs ', len(treefrom.uniqueFuns()))
   for line in treefrom.uniqueFuns():
-    abstractGF.write("\t\t" + line[0] + " ;\n")
+    abstractGF.write("\t\t" + line[0] + " -> UDS ;\n")
     abstractGF.write("\t--" + line[1] + " ;\n\n")
   abstractGF.write("}")
   abstractGF.close()
