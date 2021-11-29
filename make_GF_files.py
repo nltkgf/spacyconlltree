@@ -35,7 +35,7 @@ def coerceFunsConcrete(cat):
   return [(cat + "_"), "x", "= TODO ;"]
 
 def writeLabels():
-  with open(abstractGrammar + '.label', 'w+') as labelFile:
+  with open(abstractGrammar + '.labels', 'w+') as labelFile:
     for eachFun in treefrom.uniqueFuns():
       eachLabel = "#fun " + eachFun[0].replace(': root ', 'head').replace("->", "") # TODO: return type should not be in the labels
       start = eachLabel.partition("head")[0] + eachLabel.partition("head")[1]
