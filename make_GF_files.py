@@ -1,3 +1,4 @@
+from abc import abstractclassmethod
 from typing import AbstractSet
 import spacy_udpipe
 import sys
@@ -18,54 +19,34 @@ oldGrammar = sys.argv[-1]
 print('load old grammar ', oldGrammar)
 
 def getPGF(oldGrammar):
-  print(oldGrammar)
+  # print(oldGrammar)
   gr = pgf.readPGF(oldGrammar)
-  R = gr.embed(oldGrammar)
-  print(gr)
-  return gr
-  # print(R)
-
-def readPGF (gr):
+  # R = gr.embed(oldGrammar)
   pgfAsStr = str(gr)
+  listOldGram = []
   for line in pgfAsStr.splitlines():
-    print(line)
+    listOldGram.append(line)
+  indexStart =  listOldGram.index("  fun root__ : root -> UDS ;   -- 3.761200")
+  # print (listOldGram)
+  # print (listOldGram[indexStart:])
+  wantedList = listOldGram[indexStart:]
+  print(wantedList)
+  for phrase in wantedList:
+    wantedPhrase = phrase.partition(";")[0]
+    print (wantedPhrase)
 
-def sortLines (file):
-  lines = file.readlines()
-  lines.sort()
-  linesFile1 = open ("file1" + ".pgf", "w+")
-  linesFile1.truncate(0)
-  linesFile1.seek(0)
-  linesFile1.write(lines)
-  return linesFile1
 
-# reading files to comare
-# f1original = open((abstractGrammar + ".gf"), "r")
-# f1 = print (f1original)
-# f2 = getPGF(oldGrammar)
-# def compareLines (f1, f2) :
-#   f1 = sortLines(f1)
-#   f2 = sortLines(f2)
-#   i = 0
-#   for line1 in f1:
-#     i += 1
-#     for line2 in f2:
-#       # matching line1 from both files
-#       if line1 == line2:
-#         # print IDENTICAL if similar
-#         print("Line ", i, ": IDENTICAL")
-#       else:
-#         print("Line ", i, ":")
-#         # else print that line from both files
-#         print("\tFile 1:", line1, end='')
-#         print("\tFile 2:", line2, end='')
-#       break
+# def extractFunsOldGram (oldGrammar):
+#     wantedFuns = oldGrammar.partition("\n\n\tfun\n")
 
-#   # closing files
-#   # f1.close()
-#   # f2.close()
-#   print(f1)
-#   print(f2)
+
+def compare(oldGrammar):
+    list_Uni_Funs = treefrom.uniqueFuns()
+    list_Old_Gram = getPGF (oldGrammar)
+    # str_gr = getPGF(orignAbstract)
+    li_dif = [i for i in list_Uni_Funs  + list_Old_Gram if i not in list_Uni_Funs  or i not in list_Old_Gram]
+    print(li_dif)
+    return li_dif
 
 
 # massage the ud_relations to only have the labels
@@ -93,7 +74,7 @@ def coerceFunsConcrete(cat):
 
 def makeOldGrammars():
   oldPGF = getPGF(oldGrammar)
-  print(oldPGF)
+  # print(oldPGF)
   newGrammar = open ("newGrammar" + ".gf", "w+")
   newGrammar.truncate(0)
   newGrammar.seek(0)
@@ -103,9 +84,7 @@ def makeOldGrammars():
           + " = Old"
           + abstractGrammar
           + " ** { \n\t\t +}"
-
   )
-
 
 def writeLabels():
   with open(abstractGrammar + '.labels', 'w+') as labelFile:
@@ -250,4 +229,4 @@ def removeAllPrevFiles():
 getPGF(oldGrammar)
 makeOldGrammars()
 # readPGF(gr)
-# compareLines(f1, f2)
+# compare(oldGrammar)
