@@ -4,12 +4,24 @@ import treefrom
 import time
 import os
 import shutil
+import pgf
+import itertools
+
 from pathlib import Path
 
-filename = sys.argv[-2]
+filename = sys.argv[-3]
 print('load ', filename)
-abstractGrammar = sys.argv[-1]
+abstractGrammar = sys.argv[-2]
 print('load abstract ', abstractGrammar)
+oldGrammar = sys.argv[-1]
+print('load old grammar ', oldGrammar)
+
+def getPGF(oldGrammar):
+  print(oldGrammar)
+  gr = pgf.readPGF(oldGrammar)
+  R = gr.embed(oldGrammar)
+  print(gr)
+  print(R)
 
 # massage the ud_relations to only have the labels
 def extractUDLabels(line):
@@ -174,4 +186,5 @@ removeAllPrevFiles()
 writeLabels()
 makeAbstractGF(abstractGrammar)
 makeConcreteGF(abstractGrammar)
+getPGF(oldGrammar)
 

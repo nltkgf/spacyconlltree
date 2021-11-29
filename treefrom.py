@@ -4,7 +4,7 @@ import sys
 spacy_udpipe.download("en")
 nlp = spacy_udpipe.load("en")
 
-filename = sys.argv[-2]
+filename = sys.argv[-3]
 
 def removePunct(ls):
   return [l for l in ls if l[2] != 'punct']
