@@ -21,7 +21,7 @@ def getPGF(oldGrammar):
   gr = pgf.readPGF(oldGrammar)
   R = gr.embed(oldGrammar)
   print(gr)
-  print(R)
+  # print(R)
 
 # massage the ud_relations to only have the labels
 def extractUDLabels(line):
