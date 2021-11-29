@@ -149,7 +149,7 @@ def makeBak():
           destination = os.path.join(backupDirectoryConcrete, filename+"_"+timestr)
           dest = shutil.copyfile(source, destination)
   for filename in os.listdir(currDirectory):
-      if filename.endswith(".label"):
+      if filename.endswith(".labels"):
           source = os.path.join(currDirectory,filename)
           destination = os.path.join(backupDirectoryLabels, filename+"_"+timestr)
           dest = shutil.copyfile(source, destination)
