@@ -157,7 +157,7 @@ def makeBak():
 def removePrevLabelFiles():
   currDirectory = "./"
   for filename in os.listdir(currDirectory):
-    if filename.endswith(".label"):
+    if filename.endswith(".labels"):
       os.remove(filename)
 def removePrevGFFiles():
   currDirectory = "./"
