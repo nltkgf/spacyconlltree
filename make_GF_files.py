@@ -31,15 +31,15 @@ def getPGF(oldGrammar):
   # print (listOldGram)
   # print (listOldGram[indexStart:])
   wantedList = listOldGram[indexStart:]
-  # print(wantedList)
+  # print("a list of funs with UDS",wantedList)
   list_old_Funs = []
   for phrase in wantedList:
     wantedPhrase = phrase.partition(";")[0]
     wantedFun = wantedPhrase [6:-8] if "UDS" in wantedPhrase else wantedPhrase [6:-1]
     list_old_Funs.append(wantedFun)
     # print (wantedFun)
-    print (list_old_Funs)
-    return (list_old_Funs)
+  print ("list without UDS", list_old_Funs)
+  return (list_old_Funs)
 
 
 
@@ -49,17 +49,20 @@ def getPGF(oldGrammar):
 
 def compareFunsLists(oldGrammar):
     list_Uniq_Funs = []
-    list_Uniq_Funs_Corpus= treefrom.uniqueFuns()
-    for element in list_Uniq_Funs_Corpus:
-      uniq_Funs = element [0]
-      list_Uniq_Funs.append(uniq_Funs)
-    # print (list_Uniq_Funs)
+    # list_Uniq_Funs_Corpus= treefrom.uniqueFuns()
+    # for element in list_Uniq_Funs_Corpus:
+    #   uniq_Funs = element [0]
+    #   list_Uniq_Funs.append(uniq_Funs)
+    # # print (list_Uniq_Funs)
+    # for line in open(abstractGrammar + "Unique_Funs.gf", "r"):
+    #   list_Uniq_Funs.append(line)
 
-    list_OldGram_Funs = getPGF(oldGrammar)
+    list_Uniq_Funs = makeAbstractGF(abstractGrammar)
+    list_OldGram_Funs = getPGF(oldGrammar) # equal "list without UDS"
     # list_Old_Gram = getPGF (oldGrammar)
     # str_gr = getPGF(orignAbstract)
     li_dif = [i for i in list_Uniq_Funs  + list_OldGram_Funs if i not in list_Uniq_Funs  or i not in list_OldGram_Funs]
-    print(li_dif)
+    print("list of difference", li_dif)
 
     # return li_dif
 
@@ -113,6 +116,7 @@ def writeLabels():
 # create an abstract GF file with user entered name
 def makeAbstractGF(userGrammar):
   abstractGF = open (abstractGrammar + ".gf", "w+")
+  abstractGFUniq_Funs = open (abstractGrammar + "Unique_Funs.gf", "w+")
   abstractGF.truncate(0)
   abstractGF.seek(0)
   abstractGF.write(
@@ -141,13 +145,17 @@ def makeAbstractGF(userGrammar):
 
   abstractGF.write( "\n\n\tfun\n" )
   print('length of unique funs ', len(treefrom.uniqueFuns()))
+  list_Corpus_Unique_Funs = []
   for line in treefrom.uniqueFuns():
     abstractGF.write("\t\t" + line[0] + " -> UDS ;\n")
     abstractGF.write("\t--" + line[1] + " ;\n\n")
+    list_Corpus_Unique_Funs.append(line[0])
+    abstractGFUniq_Funs.write(line[0] +"\n")
   abstractGF.write("}")
   abstractGF.close()
-
-
+  abstractGFUniq_Funs.close()
+  print("list_Corpus_Unique_Funs",list_Corpus_Unique_Funs)
+  return (list_Corpus_Unique_Funs)
 
 def makeConcreteGF(userGrammar):
   concreteGF = open (abstractGrammar+ "Eng.gf", "w+")
@@ -236,11 +244,12 @@ def removeAllPrevFiles():
   removePrevLabelFiles()
   removePrevGFFiles()
 
-makeBak()
-removeAllPrevFiles()
-writeLabels()
+# makeBak()
+# removeAllPrevFiles()
+# writeLabels()
 makeAbstractGF(abstractGrammar)
-makeConcreteGF(abstractGrammar)
+# makeConcreteGF(abstractGrammar)
 getPGF(oldGrammar)
-makeNewGrammars()
+# makeNewGrammars()
 compareFunsLists(oldGrammar)
+# print(pgf.readPGF("Abstract.pgf"))
