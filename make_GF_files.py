@@ -20,7 +20,7 @@ print('load old grammar ', oldGrammar)
 
 # get old grammar from pgf
 def getPGF(oldGrammar):
-  gr = pgf.readPGF(oldGrammar)
+  gr = pgf.readPGF(oldGrammar + ".pgf")
   pgfAsStr = str(gr)
   listOldGram = []
   for line in pgfAsStr.splitlines():
@@ -96,14 +96,14 @@ def coerceFunsConcrete(cat):
 # write new grammar
 
 def makeNewGrammar(oldGrammar):
-  newGrammarFile = open ("newGrammar" + ".gf", "w+")
+  newGrammarFile = open (newGrammar + ".gf", "w+")
   newGrammarFile.truncate(0)
   newGrammarFile.seek(0)
   newGrammarFile.write(
-            "abstract New"
+            "abstract "
           + newGrammar
-          + " = Old"
-          + newGrammar
+          + " = "
+          + oldGrammar
           + " ** {"
   )
 
@@ -170,7 +170,7 @@ def makeAbstractGF(userGrammar):
 # make concrete grammar
 
 def makeConcreteGF(userGrammar):
-  concreteGF = open (newGrammar+ "Eng.gf", "w+")
+  concreteGF = open (newGrammar + "Eng.gf", "w+")
   concreteGF.truncate(0)
   concreteGF.seek(0)
   concreteGF.write(
@@ -257,7 +257,7 @@ def removeAllPrevFiles():
   removePrevGFFiles()
 
 makeBak()
-removeAllPrevFiles()
+# removeAllPrevFiles()
 writeLabels()
 
 makeAbstractGF(newGrammar)
