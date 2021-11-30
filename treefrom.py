@@ -1,10 +1,20 @@
 import spacy_udpipe
 import sys
+import fnmatch
 
 spacy_udpipe.download("en")
 nlp = spacy_udpipe.load("en")
 
 filename = sys.argv[-3]
+
+csvArtifacts = [
+  "Index(['Predicates'], dtype='object')",
+  "<class 'pandas.core.series.Series'>",
+  "<class 'numpy.ndarray'>",
+  "complete"
+]
+
+wildcardPattern = "There are * predicates altogether."
 
 def removePunct(ls):
   return [l for l in ls if l[2] != 'punct']
@@ -60,10 +70,13 @@ def getFuns():
     texts = input.readlines()
     for text in texts[:]:
       text = text.rstrip()
-
-      allTrees = getTree(text)
-
-      allFuns.append(writeFun(allTrees))
+      if text in csvArtifacts:
+        pass
+      elif fnmatch.fnmatch(text,wildcardPattern):
+        pass
+      else:
+        allTrees = getTree(text)
+        allFuns.append(writeFun(allTrees))
 
   return allFuns
 
