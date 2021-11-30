@@ -26,7 +26,8 @@ def getPGF(oldGrammar):
   listOldGram = []
   for line in pgfAsStr.splitlines():
     listOldGram.append(line)
-  indexStart =  listOldGram.index("  fun root__ : root -> UDS ;   -- 3.761200")
+  indexStart =  [idx for idx, s in enumerate(listOldGram) if "fun root__ : root -> UDS" in s][0]
+  # print("index", indexStart)
   # print (listOldGram)
   # print (listOldGram[indexStart:])
   wantedList = listOldGram[indexStart:]
