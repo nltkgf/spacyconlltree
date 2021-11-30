@@ -95,17 +95,27 @@ def coerceFunsConcrete(cat):
 
 # write new grammar
 
-def makeNewGrammars():
-  newGrammar = open ("newGrammar" + ".gf", "w+")
-  newGrammar.truncate(0)
-  newGrammar.seek(0)
-  newGrammar.write(
+def makeNewGrammar(oldGrammar):
+  newGrammarFile = open ("newGrammar" + ".gf", "w+")
+  newGrammarFile.truncate(0)
+  newGrammarFile.seek(0)
+  newGrammarFile.write(
             "abstract New"
           + newGrammar
           + " = Old"
           + newGrammar
-          + " ** { \n\t\t +}"
+          + " ** {"
   )
+
+  newGrammarFile.write(
+    "\n\n\t -- additional corpus funs"
+  )
+
+  # write additional corpus funs
+  for line in compareFunsLists(oldGrammar):
+    newGrammarFile.write("\n\t\t" + line)
+
+  newGrammarFile.write("\n}")
 
 # write label file
 
@@ -253,4 +263,4 @@ writeLabels()
 makeAbstractGF(newGrammar)
 makeConcreteGF(newGrammar)
 
-compareFunsLists(oldGrammar)
+makeNewGrammar(oldGrammar)
