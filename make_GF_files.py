@@ -31,23 +31,37 @@ def getPGF(oldGrammar):
   # print (listOldGram)
   # print (listOldGram[indexStart:])
   wantedList = listOldGram[indexStart:]
-  print(wantedList)
+  # print(wantedList)
+  list_old_Funs = []
   for phrase in wantedList:
     wantedPhrase = phrase.partition(";")[0]
-    print (wantedPhrase)
+    wantedFun = wantedPhrase [6:-8] if "UDS" in wantedPhrase else wantedPhrase [6:-1]
+    list_old_Funs.append(wantedFun)
+    # print (wantedFun)
+    print (list_old_Funs)
+    return (list_old_Funs)
+
 
 
 # def extractFunsOldGram (oldGrammar):
 #     wantedFuns = oldGrammar.partition("\n\n\tfun\n")
 
 
-def compare(oldGrammar):
-    list_Uni_Funs = treefrom.uniqueFuns()
-    list_Old_Gram = getPGF (oldGrammar)
+def compareFunsLists(oldGrammar):
+    list_Uniq_Funs = []
+    list_Uniq_Funs_Corpus= treefrom.uniqueFuns()
+    for element in list_Uniq_Funs_Corpus:
+      uniq_Funs = element [0]
+      list_Uniq_Funs.append(uniq_Funs)
+    # print (list_Uniq_Funs)
+
+    list_OldGram_Funs = getPGF(oldGrammar)
+    # list_Old_Gram = getPGF (oldGrammar)
     # str_gr = getPGF(orignAbstract)
-    li_dif = [i for i in list_Uni_Funs  + list_Old_Gram if i not in list_Uni_Funs  or i not in list_Old_Gram]
+    li_dif = [i for i in list_Uniq_Funs  + list_OldGram_Funs if i not in list_Uniq_Funs  or i not in list_OldGram_Funs]
     print(li_dif)
-    return li_dif
+
+    # return li_dif
 
 
 # massage the ud_relations to only have the labels
@@ -73,7 +87,7 @@ def coerceFunsAbs(cat):
 def coerceFunsConcrete(cat):
   return [(cat + "_"), "x", "= TODO ;"]
 
-def makeOldGrammars():
+def makeNewGrammars():
   oldPGF = getPGF(oldGrammar)
   # print(oldPGF)
   newGrammar = open ("newGrammar" + ".gf", "w+")
@@ -222,12 +236,11 @@ def removeAllPrevFiles():
   removePrevLabelFiles()
   removePrevGFFiles()
 
-# makeBak()
-# removeAllPrevFiles()
-# writeLabels()
-# makeAbstractGF(abstractGrammar)
-# makeConcreteGF(abstractGrammar)
+makeBak()
+removeAllPrevFiles()
+writeLabels()
+makeAbstractGF(abstractGrammar)
+makeConcreteGF(abstractGrammar)
 getPGF(oldGrammar)
-makeOldGrammars()
-# readPGF(gr)
-# compare(oldGrammar)
+makeNewGrammars()
+compareFunsLists(oldGrammar)
