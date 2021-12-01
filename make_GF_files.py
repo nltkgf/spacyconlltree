@@ -8,6 +8,7 @@ import os
 import shutil
 import pgf
 import itertools
+import glob
 
 from pathlib import Path
 
@@ -48,7 +49,6 @@ def compareFunsLists(oldGrammar):
     li_dif = [i for i in newGrammar + oldGrammar if i not in newGrammar  or i not in oldGrammar]
     print("diffs")
     print(*li_dif, sep="\n")
-
     return li_dif
 
 # massage the ud_relations to only have the labels
@@ -117,21 +117,50 @@ def makeNewGrammar(oldGrammar):
 
   newGrammarFile.write("\n}")
 
-# write label file
+# write label file from scratch
 
 def writeLabels():
   with open(newGrammar + '.labels', 'w+') as labelFile:
-    for eachFun in treefrom.uniqueFuns():
-      eachLabel = "#fun " + eachFun[0].replace(': root ', 'head').replace("->", "") # TODO: return type should not be in the labels
-      start = eachLabel.partition("head")[0] + eachLabel.partition("head")[1]
-      trail = eachLabel.partition("head")[2]
-      trailNew = treefrom.toUDelement(trail)
-      labelFile.write(start+ trailNew +"\n")
+
+    # check if label file already exists
+    currentLabels = []
+    os.chdir(os.getcwd())
+    for label in glob.glob("*.labels"):
+      currentLabels.append(label)
+    print(currentLabels)
+
+    if currentLabels == True:
+      newLabels(currentLabels, oldGrammar, labelFile)
+      print('true')
+    else:
+      for eachFun in treefrom.uniqueFuns():
+        eachLabel = "#fun " + eachFun[0].replace(': root ', 'head').replace("->", "") # TODO: return type should not be in the labels
+        start = eachLabel.partition("head")[0] + eachLabel.partition("head")[1]
+        trail = eachLabel.partition("head")[2]
+        trailNew = treefrom.toUDelement(trail)
+        labelFile.write(start+ trailNew +"\n")
+# append new labels
+
+def newLabels(currentLabels, oldGrammar, labelFile):
+
+  # get most recent label
+  latestLabel = max(currentLabels, key=os.path.getmtime)
+  print(latestLabel)
+
+  # copy content from most recent label
+  source = str(latestLabel)
+  destination = str(newGrammar + '.labels')
+  print(source, destination)
+  shutil.copyfile(source, destination)
+
+  for line in compareFunsLists(oldGrammar):
+    eachLabel = "#fun " + line[0].replace(': root ', 'head').replace("->", "")
+    print(eachLabel)
+    labelFile.write("\n\t\t" + eachLabel)
 
 # create an abstract GF file with user entered name
 def makeAbstractGF(userGrammar):
   abstractGF = open (newGrammar + ".gf", "w+")
-  # abstractGFUniq_Funs = open (newGrammar + "Unique_Funs.gf", "w+")
   abstractGF.truncate(0)
   abstractGF.seek(0)
   abstractGF.write(
