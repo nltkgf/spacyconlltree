@@ -158,9 +158,9 @@ def newLabels(currentLabels, oldGrammar):
     print('old Grammar', compareFunsLists(oldGrammar))
     for line in compareFunsLists(oldGrammar):
       print('line', line)
-      eachLabel = "#fun " + line[0].replace(': root ', 'head').replace("->", "")
+      eachLabel = "#" + line.replace(': root ', 'head').replace("->", "").replace("UDS", "").replace(";", "")
       print(eachLabel)
-      labelFile.write("\n\t\t" + eachLabel)
+      labelFile.write(eachLabel)
 
 # create an abstract GF file with user entered name
 def makeAbstractGF(userGrammar):
