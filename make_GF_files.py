@@ -1,5 +1,3 @@
-from abc import abstractclassmethod
-from typing import AbstractSet
 import spacy_udpipe
 import sys
 import treefrom
@@ -126,7 +124,6 @@ def writeLabels():
     os.chdir(os.getcwd())
     for label in glob.glob("*.labels"):
       currentLabels.append(label)
-    print('current labels', currentLabels)
 
     if bool(currentLabels) == True:
       newLabels(currentLabels, oldGrammar)
@@ -142,24 +139,18 @@ def writeLabels():
 # append new labels
 
 def newLabels(currentLabels, oldGrammar):
-  print('true')
   with open(newGrammar + '.labels', 'a+') as labelFile:
 
     # get most recent label
     latestLabel = max(currentLabels, key=os.path.getmtime)
-    print(latestLabel)
 
     # copy content from most recent label
     source = str(latestLabel)
     destination = str(newGrammar + '.labels')
-    print(source, destination)
     shutil.copyfile(source, destination)
 
-    print('old Grammar', compareFunsLists(oldGrammar))
     for line in compareFunsLists(oldGrammar):
-      print('line', line)
       eachLabel = "#" + line.replace(': root ', 'head').replace("->", "").replace("UDS", "").replace(";", "")
-      print(eachLabel)
       labelFile.write(eachLabel)
 
 # create an abstract GF file with user entered name
