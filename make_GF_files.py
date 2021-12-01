@@ -120,43 +120,47 @@ def makeNewGrammar(oldGrammar):
 # write label file from scratch
 
 def writeLabels():
-  with open(newGrammar + '.labels', 'w+') as labelFile:
 
     # check if label file already exists
     currentLabels = []
     os.chdir(os.getcwd())
     for label in glob.glob("*.labels"):
       currentLabels.append(label)
-    print(currentLabels)
+    print('current labels', currentLabels)
 
-    if currentLabels == True:
-      newLabels(currentLabels, oldGrammar, labelFile)
-      print('true')
+    if bool(currentLabels) == True:
+      newLabels(currentLabels, oldGrammar)
     else:
-      for eachFun in treefrom.uniqueFuns():
-        eachLabel = "#fun " + eachFun[0].replace(': root ', 'head').replace("->", "") # TODO: return type should not be in the labels
-        start = eachLabel.partition("head")[0] + eachLabel.partition("head")[1]
-        trail = eachLabel.partition("head")[2]
-        trailNew = treefrom.toUDelement(trail)
-        labelFile.write(start+ trailNew +"\n")
+      with open(newGrammar + '.labels', 'w+') as labelFile:
+        for eachFun in treefrom.uniqueFuns():
+          eachLabel = "#fun " + eachFun[0].replace(': root ', 'head').replace("->", "") # TODO: return type should not be in the labels
+          start = eachLabel.partition("head")[0] + eachLabel.partition("head")[1]
+          trail = eachLabel.partition("head")[2]
+          trailNew = treefrom.toUDelement(trail)
+          labelFile.write(start+ trailNew +"\n")
+
 # append new labels
 
-def newLabels(currentLabels, oldGrammar, labelFile):
+def newLabels(currentLabels, oldGrammar):
+  print('true')
+  with open(newGrammar + '.labels', 'a+') as labelFile:
 
-  # get most recent label
-  latestLabel = max(currentLabels, key=os.path.getmtime)
-  print(latestLabel)
+    # get most recent label
+    latestLabel = max(currentLabels, key=os.path.getmtime)
+    print(latestLabel)
 
-  # copy content from most recent label
-  source = str(latestLabel)
-  destination = str(newGrammar + '.labels')
-  print(source, destination)
-  shutil.copyfile(source, destination)
+    # copy content from most recent label
+    source = str(latestLabel)
+    destination = str(newGrammar + '.labels')
+    print(source, destination)
+    shutil.copyfile(source, destination)
 
-  for line in compareFunsLists(oldGrammar):
-    eachLabel = "#fun " + line[0].replace(': root ', 'head').replace("->", "")
-    print(eachLabel)
-    labelFile.write("\n\t\t" + eachLabel)
+    print('old Grammar', compareFunsLists(oldGrammar))
+    for line in compareFunsLists(oldGrammar):
+      print('line', line)
+      eachLabel = "#fun " + line[0].replace(': root ', 'head').replace("->", "")
+      print(eachLabel)
+      labelFile.write("\n\t\t" + eachLabel)
 
 # create an abstract GF file with user entered name
 def makeAbstractGF(userGrammar):
