@@ -4,7 +4,7 @@ AIM: Getting predicates into Abstract Syntax Trees (AST) **WIP**
    1. Create abstract GF file
    2. Create contrect GF file
    3. Create a labels file containing unique Funs from a file of predicates
-   4. Create an extension grammar for gaps between a file of predicates and a pre-existing pgf grammar file. (*For more on pgf, read [embedding-grammars](https://inariksit.github.io/gf/2019/12/12/embedding-grammars.html*)
+   4. Extend a grammar from a existing pgf grammar file. (*For more on pgf, read [embedding-grammars](https://inariksit.github.io/gf/2019/12/12/embedding-grammars.html)*)
 
 2. Ensure you have the necessary libraries
    1. `pip install pandas`
@@ -30,10 +30,10 @@ AIM: Getting predicates into Abstract Syntax Trees (AST) **WIP**
 
 
 7. *For Create GF extension grammar, concrete file, labels file* Create an extenstion abstract gf, a concrete gf file and a labels file
-   1. `python make_GF_files.py input Name_Of_Abstract ExistingGrammar` eg. run this command `python make_GF_files.py input Abstract GrammarInDirectory` to get
-      1. a gf concrete file (AbstractEng.gf)
-      2. a labels file called (Abstract.label) and
-      3. an extension grammar file (Abstract.gf)
+   1. `python make_GF_files.py input NewGrammar ExistingGrammar` eg. run this command `python make_GF_files.py input NewGrammar GrammarInDirectory` to get
+      1. a gf concrete file (NewGrammarEng.gf)
+      2. a labels file called (NewGrammar.labels) and
+      3. an extension grammar file (NewGrammar.gf)
    2. If you encounter error message similar to below
       ```Traceback (most recent call last):
          File "/Users/regina/Code/spacyconlltree/make_GF_files.py", line 285, in <module>
@@ -44,16 +44,16 @@ AIM: Getting predicates into Abstract Syntax Trees (AST) **WIP**
             shutil.copyfile(source, destination)
          File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/shutil.py", line 244, in copyfile
             raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
-         shutil.SameFileError: 'Name_Of_Abstract.labels' and 'Name_Of_Abstract.labels' are the same file
+         shutil.SameFileError: 'NewGrammar.labels' and 'NewGrammar.labels' are the same file
       ```
-      The solution is remove the current labels file with the same name that you had put in for `Name_Of_Abstract`.
+      The solution is remove the current labels file with the same name that you had put in for `NewGrammar`. Another solution could be just give a different name to your new grammar.
 
 8. For info:
    1. Purpose of `treefrom` module
       1. Extract the parent(root) and children for the AST functions in all the predicates that was fed with `input` e.g `root_nsubj_obj head-> nsubj -> obj -> UDS`
       2. Compile all these to only retain the unique functions.
    2. Making the abstract gf, concrete gf file and labels file:
-      1. With the labels from ud_relations and the generated unique functions, the contents are then processed to produce a pair of abstract gf and its corresponding concrete gf file.
+      1. With the labels from ud_relations and the generated unique functions, the contents are then processed. These are used to generate the concrete file. The unique functions are also compared to the ones in the existing pgf file to create an extension grammar.
       2. A labels file is also created for reference.
    3. backupFiles folder contains all the backup copies of gf abstract, gf concrete and labels files.
 
