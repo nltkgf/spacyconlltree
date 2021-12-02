@@ -1,36 +1,54 @@
 Instructions:
 AIM: Getting predicates into Abstract Syntax Trees (AST) **WIP**
+1. AIM:
+   1. Create abstract GF file
+   2. Create contrect GF file
+   3. Create a labels file containing unique Funs from a file of predicates
+   4. Create an extension grammar for gaps between a file of predicates and a pre-existing pgf grammar file. (*For more on pgf, read [embedding-grammars](https://inariksit.github.io/gf/2019/12/12/embedding-grammars.html*)
 
-1. Ensure you have the necessary libraries
+2. Ensure you have the necessary libraries
    1. `pip install pandas`
    2. `pip install spacy`
    3. `pip install spacy_udpipe`
    4. download the necessary spacy model `python -m spacy download en_core_web_sm`
    5. `pip install spacy_conll`
-2. To work in a virtual environment, do
+3. To work in a virtual environment, do
    1. `pip install virtualenv`
    2. `virtualenv pdpaenv`
    3. `source pdpaenv/bin/activate`
-3. *For predicates extraction* Extract the predicates from a csv into a file for subsequent processing
+4. *Where required: For predicates extraction into an INPUT file* Extract the predicates from a csv into a file for subsequent processing
    1. Here, the PDPA predicates are in `pdpa_predicates.csv` under the field *Predicates*
    2. To pull all the predicates into a file "input", do `python pdpa_read_predicates.py > input`
    3. The first 4 lines contains some meta info of the contents.
-4. *For making conllu* <Option> Feed the contents of the `input` file (which contains the predicates) and transform them into a conllu format
+5. *For making conllu* <Optional> Feed the contents of the `input` file (which contains the predicates) and transform them into a conllu format
    1. `python sentence.py input` will output the predicates in `input` into a conllu format at `spacy.conllu`
 
-~~4. Part 3: Use the GF-UD to make show the UD for all the predicates, presenting them in GF labels~~
-   ~~1. Make a copy of the repo from https://github.com/GrammaticalFramework/gf-ud locally~~
-   ~~2. Go the the repo directory, pipe the conllu format output file created that is residing into its directory into the gf-ud directory using ud2gf with the appropriate grammars using `cat /Code/spacyconlltree/spacy.conllu | stack run gf-ud ud2gf grammars/MiniLang Eng Utt ut > spacyOP` . [ Utt is arbitrary; It could have been VP or other RGL phrase]~~
-   ~~3. `Ctrl C` to terminate. But it is a horribly long process~~
-   ~~4. spacyOP will contain the relationship of parent-children-grandchildren relationships of all the predicates.~~
+6. To create a pgf file so as to use the GF grammar from another program, first compile it into a PGF first by simply running this command after ensuring you have GF installed.
+   1. To install GF : see [Grammatical Framework Download and Installation](https://www.grammaticalframework.org/download/index-3.11.html)
+   2. Go into GF shell with the grammar that you have with `gf GrammarInDirectory.gf`
+   3. Compile grammar into pgf with `gf -make GrammarInDirectory.gf`
 
-5. *For Create GF files and label file* Create an abstract gf, a concrete gf file and a labels file
-   1. `python make_GF_files.py input Name_Of_Abstract` eg. run this command `python make_GF_files.py input Abstract` if you want to get
-      1. an gf abstract file (Abstract.gf),
-      2. a gf concrete file (AbstractEng.gf) and
-      3. a labels file called (Abstract.label).
-   
-6. For info:
+
+7. *For Create GF extension grammar, concrete file, labels file* Create an extenstion abstract gf, a concrete gf file and a labels file
+   1. `python make_GF_files.py input Name_Of_Abstract ExistingGrammar` eg. run this command `python make_GF_files.py input Abstract GrammarInDirectory` to get
+      1. a gf concrete file (AbstractEng.gf)
+      2. a labels file called (Abstract.label) and
+      3. an extension grammar file (Abstract.gf)
+   2. If you encounter error message similar to below
+      ```Traceback (most recent call last):
+         File "/Users/regina/Code/spacyconlltree/make_GF_files.py", line 285, in <module>
+            writeLabels()
+         File "/Users/regina/Code/spacyconlltree/make_GF_files.py", line 129, in writeLabels
+            newLabels(currentLabels, oldGrammar)
+         File "/Users/regina/Code/spacyconlltree/make_GF_files.py", line 150, in newLabels
+            shutil.copyfile(source, destination)
+         File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/shutil.py", line 244, in copyfile
+            raise SameFileError("{!r} and {!r} are the same file".format(src, dst))
+         shutil.SameFileError: 'Name_Of_Abstract.labels' and 'Name_Of_Abstract.labels' are the same file
+      ```
+      The solution is remove the current labels file with the same name that you had put in for `Name_Of_Abstract`.
+
+8. For info:
    1. Purpose of `treefrom` module
       1. Extract the parent(root) and children for the AST functions in all the predicates that was fed with `input` e.g `root_nsubj_obj head-> nsubj -> obj -> UDS`
       2. Compile all these to only retain the unique functions.
@@ -39,7 +57,7 @@ AIM: Getting predicates into Abstract Syntax Trees (AST) **WIP**
       2. A labels file is also created for reference.
    3. backupFiles folder contains all the backup copies of gf abstract, gf concrete and labels files.
 
-7. Overview for information:
+9. Overview for information:
 
 |   	|  Required 	            | Section  	                           | Comments   	                              |
 |---	|---	                     |---	                                 |---	                                       |
