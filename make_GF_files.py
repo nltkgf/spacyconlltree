@@ -44,7 +44,7 @@ def getNewGrammarFuns():
 def compareFunsLists(oldGrammar):
     newGrammar = getNewGrammarFuns()
     oldGrammar = getPGF(oldGrammar)
-    li_dif = [i for i in newGrammar + oldGrammar if i not in newGrammar  or i not in oldGrammar]
+    li_dif = [i for i in newGrammar if i not in oldGrammar]
     print("diffs")
     print(*li_dif, sep="\n")
     return li_dif
