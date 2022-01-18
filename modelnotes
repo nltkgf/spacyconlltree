@@ -1,5 +1,6 @@
 train udpipe with annotated legal datasets
 run models through testmodel.py to get tokens
+python testmodel.py model >> output
 
 frombasicen: basic english ud model
 
@@ -7,3 +8,8 @@ fromcuad: model trained on part of the cuad dataset
 https://github.com/TheAtticusProject/cuad
 these are labelled:
 "The labels correspond to 41 categories of legal clauses in commercial contracts that are considered important by experienced attorneys in contract review in connection with a corporate transaction. Such transactions include mergers & acquisitions, investments, initial public offering, etc."
+
+fromeurlex75:
+https://paperswithcode.com/dataset/eurlex57k
+57,000 English documents of EU legislation from the EUR-LEX portal
+tagged with concepts from the European Vocabulary (EUROVOC)
