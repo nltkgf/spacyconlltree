@@ -5,7 +5,6 @@ import fnmatch
 spacy_udpipe.download("en")
 nlp = spacy_udpipe.load("en")
 
-filename = sys.argv[-3]
 
 csvArtifacts = [
   "Index(['Predicates'], dtype='object')",
@@ -61,10 +60,10 @@ def writeFun(trees):
   return [fun, getElements(trees, 4)[0]]
 
 # def writeCat(trees):
-def getFuns():
+def getFuns(file):
   allFuns = []
 
-  with open(filename) as input:
+  with open(file) as input:
     # for _ in range(4):
     #   next(input)
     texts = input.readlines()
@@ -80,11 +79,11 @@ def getFuns():
 
   return allFuns
 
-def uniqueFuns():
+def uniqueFuns(file):
   outfile = []
 
   fun_dict = {}
-  for f in getFuns():
+  for f in getFuns(file):
     if f[0] not in fun_dict:
       fun_dict[f[0]] = f[1]
   fun_list = []

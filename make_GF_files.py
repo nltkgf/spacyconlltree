@@ -11,12 +11,6 @@ import glob
 
 from pathlib import Path
 
-filename = sys.argv[-3]
-print('load ', filename)
-newGrammar = sys.argv[-2]
-print('load new grammar ', newGrammar)
-oldGrammar = sys.argv[-1]
-print('load old grammar ', oldGrammar)
 
 # get old grammar from pgf
 def getPGF(oldGrammar):
@@ -35,15 +29,15 @@ def getPGF(oldGrammar):
   return onlyFuns
 
 # get corpus funs only for new grammar
-def getNewGrammarFuns():
+def getNewGrammarFuns(inputFile):
   list_Corpus_Unique_Funs = []
-  for line in treefrom.uniqueFuns():
+  for line in treefrom.uniqueFuns(inputFile):
     list_Corpus_Unique_Funs.append("fun " + line[0] + " -> UDS ;")
   return list_Corpus_Unique_Funs
 
 # compare old and new grammar
-def compareFunsLists(oldGrammar):
-    newGrammar = getNewGrammarFuns()
+def compareFunsLists(inputFile, oldGrammar, newGrammar):
+    newGrammar = getNewGrammarFuns(inputFile)
     oldGrammar = getPGF(oldGrammar)
     li_dif = [i for i in newGrammar if i not in oldGrammar]
     print("diffs")
@@ -94,7 +88,7 @@ def coerceFunsConcrete(cat):
 
 # write new grammar
 
-def makeNewGrammar(oldGrammar):
+def makeNewGrammar(inputFile, oldGrammar, newGrammar):
   newGrammarFile = open (newGrammar + ".gf", "w+")
   newGrammarFile.truncate(0)
   newGrammarFile.seek(0)
@@ -111,14 +105,14 @@ def makeNewGrammar(oldGrammar):
   )
 
   # write additional corpus funs
-  for line in compareFunsLists(oldGrammar):
+  for line in compareFunsLists(inputFile, oldGrammar, newGrammar):
     newGrammarFile.write("\n\t\t" + line)
 
   newGrammarFile.write("\n}")
 
 # write label file from scratch
 
-def writeLabels():
+def writeLabels(inputFile, oldGrammar, newGrammar):
     os.chdir(os.getcwd())
     oldLabelsFile = oldGrammar + ".labels"
     newLabelsFile = newGrammar + ".labels"
@@ -130,7 +124,7 @@ def writeLabels():
     # Print in stdout + write to file as well
     print("labels")
     with open(newGrammar + '.labels', 'w+') as labelFile:
-        for eachFun in treefrom.uniqueFuns():
+        for eachFun in treefrom.uniqueFuns(inputFile):
             labelFile.write(funToLabel(eachFun[0]) +"\n")
             print(funToLabel(eachFun[0]))
 
@@ -144,14 +138,16 @@ def funToLabel(fun):
 
 
 # create an abstract GF file with user entered name
-def makeAbstractGF(userGrammar):
+def makeAbstractGF(inputFile, oldGrammar, newGrammar):
   abstractGF = open (newGrammar + ".gf", "w+")
   abstractGF.truncate(0)
   abstractGF.seek(0)
   abstractGF.write(
             "abstract "
           + newGrammar
-          + " = {"
+          + " = ** "
+          + oldGrammar
+          + " {"
           + "\n\n\tflags"
           + "\n\t\tstartcat = UDS ;"
           + "\n\n\tcat"
@@ -174,8 +170,8 @@ def makeAbstractGF(userGrammar):
 
   # write corpus funs
   abstractGF.write( "\n\n\tfun\n" )
-  print('length of unique funs ', len(treefrom.uniqueFuns()))
-  for line in treefrom.uniqueFuns():
+  print('length of unique funs ', len(treefrom.uniqueFuns(inputFile)))
+  for line in treefrom.uniqueFuns(inputFile):
     funLine = "\t\t" + line[0] + " -> UDS ;\n\t--" + line[1] + " ;\n\n"
     abstractGF.write(funLine)
   abstractGF.write("}")
@@ -183,7 +179,7 @@ def makeAbstractGF(userGrammar):
 
 # make concrete grammar
 
-def makeConcreteGF(userGrammar):
+def makeConcreteGF(inputFile, oldGrammar, newGrammar):
   concreteGF = open (newGrammar + "Eng.gf", "w+")
   concreteGF.truncate(0)
   concreteGF.seek(0)
@@ -192,8 +188,9 @@ def makeConcreteGF(userGrammar):
         + newGrammar
         + "Eng of "
         + newGrammar
-        + " = {"
-        + "\n\n\tlincat"
+        + " = ** "
+        + oldGrammar + "Eng"
+        + " {"        + "\n\n\tlincat"
         + "\n\n\t\tUDS = TODO;"
         + "\n\t\tX = TODO;"
         )
@@ -211,7 +208,7 @@ def makeConcreteGF(userGrammar):
 
   concreteGF.write("\n\n\t\t-- the actual funs")
 
-  for line in treefrom.uniqueFuns():
+  for line in treefrom.uniqueFuns(inputFile):
       function  = line[0].partition( ": ")
       fun = function[2]
       concreteGF.write("\n\t\t-- : " + fun)
@@ -270,11 +267,20 @@ def removeAllPrevFiles():
   removePrevLabelFiles()
   removePrevGFFiles()
 
-makeBak()
-# removeAllPrevFiles()
-writeLabels()
+if __name__ == "__main__":
 
-makeAbstractGF(newGrammar)
-makeConcreteGF(newGrammar)
+  inputFile = sys.argv[-3]
+  print('load ', inputFile)
+  newGrammar = sys.argv[-2]
+  print('load new grammar ', newGrammar)
+  oldGrammar = sys.argv[-1]
+  print('load old grammar ', oldGrammar)
 
-makeNewGrammar(oldGrammar)
+  makeBak()
+  # removeAllPrevFiles()
+  writeLabels(inputFile, oldGrammar, newGrammar)
+
+  makeAbstractGF(inputFile, oldGrammar, newGrammar)
+  makeConcreteGF(inputFile, oldGrammar, newGrammar)
+
+  makeNewGrammar(inputFile, oldGrammar, newGrammar)
