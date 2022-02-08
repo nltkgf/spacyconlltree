@@ -13,7 +13,7 @@ from pathlib import Path
 
 
 # get old grammar from pgf
-def getPGF(oldGrammar):
+def getPGFfuns(oldGrammar):
   gr = pgf.readPGF(oldGrammar + ".pgf")
   pgfAsStr = str(gr)
   listOldGram = []
@@ -28,20 +28,13 @@ def getPGF(oldGrammar):
     del onlyFuns[index]
   return onlyFuns
 
-# get corpus funs only for new grammar
-def getNewGrammarFuns(inputFile):
-  list_Corpus_Unique_Funs = []
-  for line in treefrom.uniqueFuns(inputFile):
-    list_Corpus_Unique_Funs.append("fun " + line[0] + " -> UDS ;")
-  return list_Corpus_Unique_Funs
 
 # compare old and new grammar
-def compareFunsLists(inputFile, oldGrammar, newGrammar):
-    newGrammar = getNewGrammarFuns(inputFile)
-    oldGrammar = getPGF(oldGrammar)
-    li_dif = [i for i in newGrammar if i not in oldGrammar]
+def compareFunsLists(newFuns, oldGrammar):
+    oldFuns = getPGFfuns(oldGrammar)
+    li_dif = [i for i in newFuns if i.gfAbs() not in oldFuns]
     print("diffs")
-    print(*li_dif, sep="\n")
+    print(*[i.gfAbs() for i in li_dif], sep="\n")
     return li_dif
 
 # massage the ud_relations to only have the labels
@@ -61,22 +54,6 @@ def getCats():
     udLabels.append(labels)
   return udLabels
 
-# massage the ud_relations to only have the labels
-def extractUDLabels(line):
-  words = line.partition( ": ")
-  label = words[0]
-  if label == 'case':
-    label = 'case_'
-  newLabel = treefrom.replaceColon(label)
-  return(newLabel)
-
-# get categories from ud_relations
-def getCats():
-  udLabels = []
-  for line in open("ud_relations", "r"):
-    labels = extractUDLabels(line)
-    udLabels.append(labels)
-  return udLabels
 
 #get coerce funs
 
@@ -86,33 +63,29 @@ def coerceFunsAbs(cat):
 def coerceFunsConcrete(cat):
   return [(cat + "_"), "x", "= TODO ;"]
 
-# write new grammar
+# Write new grammar, which extends the old grammar
 
-def makeNewGrammar(inputFile, oldGrammar, newGrammar):
+def makeNewGrammar(newFuns, oldGrammar, newGrammar):
   newGrammarFile = open (newGrammar + ".gf", "w+")
   newGrammarFile.truncate(0)
   newGrammarFile.seek(0)
   newGrammarFile.write(
-            "abstract "
-          + newGrammar
-          + " = "
-          + oldGrammar
-          + " ** {"
+            "abstract %s = %s ** {" % (newGrammar, oldGrammar)
   )
 
   newGrammarFile.write(
-    "\n\n\t -- additional corpus funs"
+    "\n\n     -- additional corpus funs"
   )
 
   # write additional corpus funs
-  for line in compareFunsLists(inputFile, oldGrammar, newGrammar):
-    newGrammarFile.write("\n\t\t" + line)
+  for line in newFuns:
+    newGrammarFile.write("\n    " + line.gfAbs())
 
   newGrammarFile.write("\n}")
 
 # write label file from scratch
 
-def writeLabels(inputFile, oldGrammar, newGrammar):
+def writeLabels(newFuns, oldGrammar, newGrammar):
     os.chdir(os.getcwd())
     oldLabelsFile = oldGrammar + ".labels"
     newLabelsFile = newGrammar + ".labels"
@@ -124,102 +97,74 @@ def writeLabels(inputFile, oldGrammar, newGrammar):
     # Print in stdout + write to file as well
     print("labels")
     with open(newGrammar + '.labels', 'w+') as labelFile:
-        for eachFun in treefrom.uniqueFuns(inputFile):
-            labelFile.write(funToLabel(eachFun[0]) +"\n")
-            print(funToLabel(eachFun[0]))
+        for res in newFuns:
+          labelFile.write(res.labels() + "\n")
+          print(res.labels())
 
 
-def funToLabel(fun):
-    label = "#fun " + fun.replace(': root ', 'head').replace("->", "") # replacing "root" with "head"
-    start = label.partition("head")[0] + label.partition("head")[1]
-    trail = label.partition("head")[2]
-    trailNew = treefrom.toUDelement(trail) # removing return type from the labels
-    return start+trailNew
-
-
-# create an abstract GF file with user entered name
-def makeAbstractGF(inputFile, oldGrammar, newGrammar):
+# create an abstract GF file from scratch with user entered name
+def makeAbstractGF(newFuns, newGrammar):
   abstractGF = open (newGrammar + ".gf", "w+")
   abstractGF.truncate(0)
   abstractGF.seek(0)
   abstractGF.write(
-            "abstract "
-          + newGrammar
-          + " = ** "
-          + oldGrammar
-          + " {"
-          + "\n\n\tflags"
-          + "\n\t\tstartcat = UDS ;"
-          + "\n\n\tcat"
-          + "\n\t\tUDS ;"
-          + "\n\t\tX ;"
+            "abstract %s = {" % newGrammar
+          + "\n\n  flags"
+          + "\n    startcat = UDS ;"
+          + "\n\n  cat"
+          + "\n    UDS ;"
+          + "\n    X ;"
           )
 
   for line in getCats():
-    abstractGF.write("\n\t\t" + line)
-    abstractGF.write(" ;")
+    abstractGF.write("\n    %s ;" % line)
 
   abstractGF.write(
-    "\n\n\t -- coercion funs"
-    + "\n\n\tfun"
+    "\n\n  -- coercion funs"
+  + "\n  fun"
   )
 
   # write coercedFuns
   for line in getCats():
-    abstractGF.write("\n\t\t" + " ".join(coerceFunsAbs(line)))
+    abstractGF.write("\n    " + " ".join(coerceFunsAbs(line)))
 
   # write corpus funs
-  abstractGF.write( "\n\n\tfun\n" )
-  print('length of unique funs ', len(treefrom.uniqueFuns(inputFile)))
-  for line in treefrom.uniqueFuns(inputFile):
-    funLine = "\t\t" + line[0] + " -> UDS ;\n\t--" + line[1] + " ;\n\n"
-    abstractGF.write(funLine)
+  abstractGF.write( "\n\n  -- funs from corpus\n" )
+
+  for line in newFuns:
+    abstractGF.write("    -- %s\n" % line.example)
+    abstractGF.write("    %s\n\n"    % line.gfAbs())
   abstractGF.write("}")
   abstractGF.close()
 
 # make concrete grammar
 
-def makeConcreteGF(inputFile, oldGrammar, newGrammar):
+def makeConcreteGF(newFuns, newGrammar):
   concreteGF = open (newGrammar + "Eng.gf", "w+")
   concreteGF.truncate(0)
   concreteGF.seek(0)
   concreteGF.write(
           "concrete "
-        + newGrammar
-        + "Eng of "
-        + newGrammar
-        + " = ** "
-        + oldGrammar + "Eng"
-        + " {"        + "\n\n\tlincat"
-        + "\n\n\t\tUDS = TODO;"
-        + "\n\t\tX = TODO;"
+        + "%s Eng of %s = {" % (newGrammar, newGrammar)
+        + "\n\n  lincat"
+        + "\n    UDS = TODO;"
+        + "\n    X = TODO;"
         )
   for line in getCats():
-    concreteGF.write("\n\t\t"
-                    + line
-                    + " = TODO ;"
-                    )
+    concreteGF.write("\n    %s = TODO ;" % line)
   concreteGF.write(
-         "\n\n\tlin"
-        + "\n\t\t-- the coercion funs"
+         "\n\n  -- the coercion funs"
+        + "\n  lin"
         )
   for line in getCats():
-    concreteGF.write("\n\t\t" + " ".join(coerceFunsConcrete(line)))
+    concreteGF.write("\n    " + " ".join(coerceFunsConcrete(line)))
 
-  concreteGF.write("\n\n\t\t-- the actual funs")
+  concreteGF.write("\n\n  -- the actual funs")
 
-  for line in treefrom.uniqueFuns(inputFile):
-      function  = line[0].partition( ": ")
-      fun = function[2]
-      concreteGF.write("\n\t\t-- : " + fun)
-      funName = function[0]
-      simpleFuns = fun.replace("-> ", "")
-      argFuns = simpleFuns.replace("UDS", "")
-      concreteGF.write("\n\t\t"
-                      + funName
-                      + argFuns
-                      + " = TODO ;"
-                      )
+  for res in newFuns:
+      concreteGF.write("\n    -- : %s" % res.gfTypeSig())
+      concreteGF.write("\n    %s %s = TODO ;" % (res.funName(), res.gfFunArgs))
+
   concreteGF.write("\n}")
   concreteGF.close()
 
@@ -269,18 +214,26 @@ def removeAllPrevFiles():
 
 if __name__ == "__main__":
 
-  inputFile = sys.argv[-3]
+  inputFile = sys.argv[1]
   print('load ', inputFile)
-  newGrammar = sys.argv[-2]
+  newGrammar = sys.argv[2]
   print('load new grammar ', newGrammar)
-  oldGrammar = sys.argv[-1]
+  oldGrammar = sys.argv[3]
   print('load old grammar ', oldGrammar)
 
-  makeBak()
+  #makeBak()
   # removeAllPrevFiles()
-  writeLabels(inputFile, oldGrammar, newGrammar)
 
-  makeAbstractGF(inputFile, oldGrammar, newGrammar)
-  makeConcreteGF(inputFile, oldGrammar, newGrammar)
 
-  makeNewGrammar(inputFile, oldGrammar, newGrammar)
+  uniqFuns = treefrom.uniqueFuns(inputFile) # retrieve unique funs in input
+  newUniqueFuns = compareFunsLists(uniqFuns, oldGrammar) # filter out funs already in old grammar
+
+  print('length of unique funs ', len(newUniqueFuns))
+
+  # Comment out only if you want to create a grammar from scratch
+  #makeAbstractGF(newUniqueFuns, newGrammar)
+  #makeConcreteGF(newUniqueFuns, newGrammar)
+
+  # Augment the given old grammar
+  writeLabels(newUniqueFuns, oldGrammar, newGrammar)
+  makeNewGrammar(newUniqueFuns, oldGrammar, newGrammar)
