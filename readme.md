@@ -68,3 +68,16 @@ AIM: Getting predicates into Abstract Syntax Trees (AST) **WIP**
 |  5 	| sentence.py  	         | For making conllu   	               | Process the extracted predicates in input to a conllu format  	|
 |  6 	| treefrom.py  	         | For Create GF files and label file   | Obtain the parent(root) and children tokens to make the functions underlying each predicates. Then narrow these down to unique functions for writing into the .label file.	|
 |  7 	| ud_relations  	         | For Create GF files and label file   |  These are the [universal dependencies relations](https://universaldependencies.org/u/dep/#:~:text=alphabetical%20listing) 	|
+
+****
+
+For just getting conllu of a phrase:
+
+checkout to the [web](https://github.com/nltkgf/spacyconlltree/tree/web) branch.
+
+install flask etc. (pip install flask)
+
+run with:
+`flask run`
+
+go to [http://127.0.0.1:5000/](http://127.0.0.1:5000/) and you can put your phrase in.

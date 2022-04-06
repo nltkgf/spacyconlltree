@@ -2,6 +2,13 @@ from flask import Flask, render_template, flash, request, jsonify
 import spacy
 import spacy_udpipe
 import sys
+import gunicorn
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 def getConll(texts):
     #nlp = spacy.load("en_core_web_sm")
@@ -21,12 +28,6 @@ def getConll(texts):
     conll = doc_con._.conll_str
 
     return conll
-
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 @app.route('/hello')
 def hello():
