@@ -1,0 +1,50 @@
+This shows the output difference after parsing with ud2gf via UDApp in natural l4 grammars
+<assessment>
+ip: a data breach that significantly harms an individual or impacts at least 500 persons qualifies as a notifiable data breach for the governing regulator
+op: NULL CallStack (from HasCallStack):
+  error, called at GFConcepts.hs:48:10 in main:GFConcepts
+  expr2abstree, called at UD2GF.hs:619:32 in main:UD2GF
+
+<attention>
+ip: this occurence constitutes a act of breach and requires immediate attention
+LIN: this occurence is constituting an act of breach and requiring immediate attention
+
+<attention_our>
+ip: this occurence constitutes a act of breach and requires our immediate attention
+SUMMARY LIN: this occurence is constituting an act of breach and requiring our immediate attention
+
+<constitutes> PERFECT!
+ip: this occurence constitutes a act of breach
+SUMMARY LIN: this occurence constitutes an act of breach
+
+<device>
+ip: becomes aware that the device that contains personal data is lost
+SUMMARY LIN: it becomes aware that the device is been lost
+
+<doubt>
+ip: when in doubt, one should actively seek clarification
+SUMMARY LIN: it seeks clarification actively
+
+<doubt_always>
+ip: when in doubt, one should always actively seek clarification
+SUMMARY LIN: it always seeks clarification actively
+
+<is gone>
+ip: if the storage device containing personal data is gone
+SUMMARY LIN: if the storage device containing personal data goes
+
+<missing>
+ip: if the storage device containing personal data goes missing
+SUMMARY LIN: the storage device containing personal data goes
+
+<regular> PERFECT
+ip: the updates are regular
+SUMMARY LIN: the updates are regular
+
+<regular_reviewed>
+ip: the updates are reviewed regularly
+SUMMARY LIN: the updates are been reviewed
+
+<warrants>
+ip: it is critical to do a preliminary assessment upon discovery of a data breach to see if it warrants a notification
+SUMMARY LIN: NULL
