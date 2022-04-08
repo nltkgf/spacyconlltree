@@ -1,0 +1,7 @@
+1	this	this	DET	DT	Number=Sing|PronType=Dem	2	det	_	FUN=this_Det
+2	occurence	occurence	NOUN	NN	Number=Sing	3	nsubj	_	FUN=occurence_N
+3	constitutes	constitute	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	FUN=constituteVBZ
+4	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	FUN=a_Det
+5	act	act	NOUN	NN	Number=Sing	3	obj	_	FUN=act_N
+6	of	of	ADP	IN	_	7	case	_	_
+7	breach	breach	NOUN	NN	Number=Sing	5	nmod	_	FUN=breach_N

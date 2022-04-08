@@ -1,0 +1,5 @@
+1	the	the	DET	Quant	FORM=0	2	det	_	FUN=DefArt
+2	updates	update	NOUN	NNS	Number=Plur	4	nsubj:pass	_	FUN=update_N
+3	are	be	AUX	VBP	Mood=Ind|Tense=Pres|VerbForm=Fin	4	aux:pass	_	FUN=UseComp
+4	reviewed	review	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	0	root	_	FUN=reviewVBN
+5	regularly	regularly	ADV	RB	_	4	advmod	_	_

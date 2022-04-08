@@ -1,0 +1,11 @@
+1	becomes	become	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	FUN=becomeVBZ
+2	aware	aware	ADJ	JJ	Degree=Pos	1	xcomp	_	FUN=aware_A
+3	that	that	SCONJ	IN	_	11	mark	_	_
+4	the	the	DET	Quant	FORM=0	5	det	_	FUN=DefArt
+5	device	device	NOUN	NN	Number=Sing	11	nsubj:pass	_	FUN=device_N
+6	that	that	PRON	WDT	PronType=Rel	7	nsubj	_	FUN=PRONWDT
+7	contains	contain	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	5	acl:relcl	_	FUN=containVBZ
+8	personal	personal	ADJ	JJ	Degree=Pos	9	amod	_	FUN=personal_A
+9	data	data	NOUN	NN	Number=Sing	7	obj	_	FUN=data_N
+10	is	be	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	11	aux:pass	_	FUN=UseComp
+11	lost	lose	VERB	VBN	Tense=Past|VerbForm=Part|Voice=Pass	1	ccomp	_	FUN=loseVBN

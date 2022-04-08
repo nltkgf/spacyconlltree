@@ -1,0 +1,10 @@
+1	when	when	ADV	WRB	PronType=Int	9	advmod	_	_
+2	in	in	ADP	IN	_	3	case	_	_
+3	doubt	doubt	NOUN	NN	Number=Sing	1	obl	_	FUN=doubt_N
+4	,	,	PUNCT	,	_	9	punct	_	_
+5	one	one	NUM	CD	NumType=Card	9	nsubj	_	_
+6	should	should	AUX	MD	VerbForm=Fin	9	aux	_	_
+7	always	always	ADV	RB	_	9	advmod	_	_
+8	actively	actively	ADV	RB	_	9	advmod	_	_
+9	seek	seek	VERB	VB	VerbForm=Inf	0	root	_	FUN=seekVB
+10	clarification	clarification	NOUN	NN	Number=Sing	9	obj	_	FUN=clarification_N

@@ -1,0 +1,12 @@
+1	this	this	DET	DT	Number=Sing|PronType=Dem	2	det	_	FUN=this_Det
+2	occurence	occurence	NOUN	NN	Number=Sing	3	nsubj	_	FUN=occurence_N
+3	constitutes	constitute	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	0	root	_	FUN=constituteVBZ
+4	a	a	DET	DT	Definite=Ind|PronType=Art	5	det	_	FUN=a_Det
+5	act	act	NOUN	NN	Number=Sing	3	obj	_	FUN=act_N
+6	of	of	ADP	IN	_	7	case	_	_
+7	breach	breach	NOUN	NN	Number=Sing	5	nmod	_	FUN=breach_N
+8	and	and	CCONJ	CC	_	9	cc	_	FUN=and_Conj
+9	requires	require	VERB	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	3	conj	_	FUN=requireVBZ
+10	our	we	PRON	PRP$	Number=Plur|Person=1|Poss=Yes|PronType=Prs	12	nmod:poss	_	FUN=PRONPRP$
+11	immediate	immediate	ADJ	JJ	Degree=Pos	12	amod	_	FUN=immediate_A
+12	attention	attention	NOUN	NN	Number=Sing	9	obj	_	FUN=attention_N
