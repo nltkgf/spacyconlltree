@@ -1,0 +1,9 @@
+1	if	if	SCONJ	IN	_	9	mark	_	_
+2	the	the	DET	Quant	FORM=0	4	det	_	FUN=DefArt
+3	storage	storage	NOUN	NN	Number=Sing	4	compound	_	FUN=storage_N
+4	device	device	NOUN	NN	Number=Sing	9	nsubj	_	FUN=device_N
+5	containing	contain	VERB	VBG	VerbForm=Ger	4	acl	_	FUN=containVBG
+6	personal	personal	ADJ	JJ	Degree=Pos	7	amod	_	FUN=personal_A
+7	data	data	NOUN	NN	Number=Sing	5	obj	_	FUN=data_N
+8	has	have	AUX	VBZ	Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin	9	aux	_	FUN=UseComp
+9	gone	gone	VERB	JJ	Tense=Past|VerbForm=Part	0	root	_	FUN=gone_A
