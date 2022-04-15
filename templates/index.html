@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+  <div id="form">
+    <textarea id="phrase" rows="10" cols="30"></textarea>
+    <button id="submit">conllise</button>
+  </div>
+  <div class="result"></div>
+</body>
+<script>
+  $(document).ready(function(){
+    $('#form').on('click', '#submit', function(){
+      console.log($("#phrase").val())
+       $.ajax({
+        url: "/hello",
+        type: "get",
+        data: {phrase: $("#phrase").val()},
+        success: function(response) {
+          const replaced = response.result.replace(new RegExp('\r?\n','g'), '<br />')
+          console.log(replaced)
+          $(".result").html('<p>'+replaced.toString()+'</p>');
+        },
+       });
+    });
+  });
+</script>
+
+</html>
+
