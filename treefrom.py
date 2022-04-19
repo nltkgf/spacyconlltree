@@ -37,7 +37,7 @@ def getRelsConllu(conllStr):
   for sent in sents:
     tree = sent.to_tree()
     rels = [ch.token['deprel'] for ch in tree.children
-            if ch.token['deprel'] != 'punct']      # grab immediate children
+            if not irrelevantUDRel(ch.token['deprel'])]      # grab immediate children
     text = ' '.join([tok['form'] for tok in sent]) # retrieve original text
     yield UDresult(rels, text)
 
@@ -48,14 +48,14 @@ def getRelsText(texts):
   output: generator of UDresults
   """
   for text in texts:
-    if isIrrelevant(text):
+    if irrelevantLine(text):
       pass # If the text is produced by a script in this directory
     else:
       doc = nlp(text)
       for token in doc:
         if token.dep_ == 'ROOT':
           rels = [child.dep_ for child in token.children
-                  if child.dep_ != 'punct'] # e.g. ['nsubj', 'obl']
+                  if not irrelevantUDRel(child.dep_)] # e.g. ['nsubj', 'obl']
           yield UDresult(rels, text)
 
 #########################################
@@ -126,7 +126,7 @@ class UDresult:
 ## Misc helper functions
 
 
-def isIrrelevant(text):
+def irrelevantLine(text):
   csvArtifacts = [
     "Index(['Predicates'], dtype='object')",
     "<class 'pandas.core.series.Series'>",
@@ -135,6 +135,24 @@ def isIrrelevant(text):
   wildcardPattern = "There are * predicates altogether."
   return (text in csvArtifacts) or (fnmatch.fnmatch(text,wildcardPattern))
 
+
+def irrelevantUDRel(word):
+  """We want to prune some of the UD relations. So far these four:
+  1) conj
+     Why ignore: we deal with conjunctions 100% with auxfuns.
+  2) det
+     Why ignore: any pattern with `root_det_…` means that the root is a noun,
+     and the det that is dependent of the root, is part of a NP.
+     In the ud2gf conversion, we want the whole NP to be the root.
+  3) compound
+     Why ignore: same reason as 2. Any pattern with `root_compound_…`
+     means that the root is noun and the dependent is part of a compound noun, e.g.
+     "data breach": breach is root, data is compound. But in GF, we want the full
+     CompoundN data_N breach_N (+ possible determiners) to be the head.
+  4) punct
+     Why ignore: GF grammars handle punctuation differently, this is just extra complication.
+  """
+  return word in ['conj', 'det', 'compound', 'punct']
 
 def labelToGFcat(label):
   """
