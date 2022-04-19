@@ -215,26 +215,29 @@ def removeAllPrevFiles():
 
 if __name__ == "__main__":
 
-  inputFile = sys.argv[1]
-  print('load ', inputFile)
-  newGrammar = sys.argv[2]
-  print('load new grammar ', newGrammar)
-  oldGrammar = sys.argv[3]
-  print('load old grammar ', oldGrammar)
-
   #makeBak()
   # removeAllPrevFiles()
+  try:
+    inputFile = sys.argv[1]
+    print('load ', inputFile)
+    newGrammar = sys.argv[2]
+    print('load new grammar ', newGrammar)
+    oldGrammar = sys.argv[3]
+    print('load old grammar ', oldGrammar)
 
+    uniqFuns = treefrom.uniqueFuns(inputFile) # retrieve unique funs in input
+    newUniqueFuns = compareFunsLists(uniqFuns, oldGrammar) # filter out funs already in old grammar
 
-  uniqFuns = treefrom.uniqueFuns(inputFile) # retrieve unique funs in input
-  newUniqueFuns = compareFunsLists(uniqFuns, oldGrammar) # filter out funs already in old grammar
+    print('length of unique funs ', len(newUniqueFuns))
 
-  print('length of unique funs ', len(newUniqueFuns))
+    # Comment out only if you want to create a grammar from scratch
+    #makeAbstractGF(newUniqueFuns, newGrammar)
+    #makeConcreteGF(newUniqueFuns, newGrammar)
 
-  # Comment out only if you want to create a grammar from scratch
-  #makeAbstractGF(newUniqueFuns, newGrammar)
-  #makeConcreteGF(newUniqueFuns, newGrammar)
+    # Augment the given old grammar
+    writeLabels(newUniqueFuns, oldGrammar, newGrammar)
+    makeNewGrammar(newUniqueFuns, oldGrammar, newGrammar)
 
-  # Augment the given old grammar
-  writeLabels(newUniqueFuns, oldGrammar, newGrammar)
-  makeNewGrammar(newUniqueFuns, oldGrammar, newGrammar)
+  except IndexError:
+    print("Usage: python make_GF_files.py input[.conllu] NewGrammar ExistingGrammar")
+
