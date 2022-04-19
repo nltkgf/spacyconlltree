@@ -79,6 +79,7 @@ def makeNewGrammar(newFuns, oldGrammar, newGrammar):
 
   # write additional corpus funs
   for line in newFuns:
+    newGrammarFile.write("    -- %s\n" % line.example)
     newGrammarFile.write("\n    " + line.gfAbs())
 
   newGrammarFile.write("\n}")
