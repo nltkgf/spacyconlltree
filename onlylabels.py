@@ -23,7 +23,7 @@ def uniqueFuns(input):
   results = getRelsText(input)
   for res in results:
     if res not in fun_list:
-      fun_list.append(res.labels())
+      fun_list.append(res)
   return sorted(fun_list)
 
 
@@ -128,5 +128,12 @@ def replaceColon(el):
       return el[:ind]
   return el
 
-for fun in uniqueFuns(filename):
-  print(fun)
+def printIt(filename):
+  print("diffs")
+  for fun in uniqueFuns(filename):
+    print(fun.gfAbs())
+  print("\nlabels")
+  for fun in uniqueFuns(filename):
+    print(fun.labels())
+
+printIt(filename)
