@@ -1,6 +1,7 @@
 import spacy
 import spacy_udpipe
 import sys
+import treefrom
 
 #nlp = spacy.load("en_core_web_sm")
 nlp = spacy_udpipe.load("en")
@@ -14,12 +15,9 @@ con = init_parser(
 
 filename = sys.argv[-1]
 
-# empty output file
-open('spacy.conllu', 'w').close()
+allConll = []
 
 with open(filename) as input:
-  # for _ in range(4):
-  #   next(input)
   texts = input.readlines()
   for text in texts: #[:-1]:
     text = text.rstrip()
@@ -28,19 +26,17 @@ with open(filename) as input:
 
     def sub_fun(x):
       conll = x._.conll_str
+      conllArr = []
 
       for line in conll.splitlines()[2:]:
-        output = open('spacy.conllu', 'a+')
-        output.seek(0)
-        checkEmpty = output.read(10)
         # if not empty \n
 
         line_list = line.split()
         if not line_list:
           break
         else:
-          if ((len(checkEmpty) > 0) and (int(line_list[0]) == 1)):
-            output.write('\n')
+          if (not conllArr) and (int(line_list[0]) == 1):
+            conllArr.append('\n')
           if (line_list[3] == 'NOUN'):
             make_fun = "FUN=" + line_list[2] + "_N"
           elif (line_list[3] == 'ADJ'):
@@ -65,8 +61,8 @@ with open(filename) as input:
           lowerroot(line_list)
           list_to_line = "\t".join(line_list)
 
-          output.writelines(list_to_line)
-          output.close()
+        conllArr.append(list_to_line)
+      return conllArr
 
     def morpho(line_list):
       if (line_list[1] == 'the'):
@@ -76,11 +72,21 @@ with open(filename) as input:
     def lowerroot(line_list):
       line_list[7] = line_list[7].lower()
 
-    sub_fun(doc_con)
-    #sub_fun(conll, "spacy.conllu")
-# morpho(conll)
+    allConll.append(sub_fun(doc_con))
 
-nlp_pipe = spacy_udpipe.load("en")
-with open("spacy_udpipe.txt", "w") as f:
-    for token in nlp_pipe(text):
-        f.writelines([token.text, " ", token.lemma_, " ", token.pos_, " ", token.dep_, " ", token.head.text, "\n"])
+def extractUDLabels(line):
+  words = line.partition( ": ")
+  label = words[0]
+  if label == 'case':
+    label = 'case_'
+  newLabel = treefrom.replaceColon(label)
+  return(newLabel)
+
+def getCats(funs):
+  udLabels = []
+  for line in funs:
+    labels = extractUDLabels(line)
+    print(labels)
+
+for eachConll in allConll:
+  getCats(eachConll)

@@ -9,22 +9,17 @@ nlp = spacy_udpipe.load("en")
 
 #########################################
 # Entry point
-def uniqueFuns(filename):
+def uniqueFuns(input):
   """
   input: a file (free text or conllu)
   output: a list of UDresult
   """
-  isConllu = filename.endswith(".conllu")
   fun_list = []
-  with open(filename, 'r') as input:
-    if isConllu:
-      results = getRelsConllu(input.read())
-    else:
-      results = getRelsText(input.readlines())
-    for res in results:
-      if res not in fun_list:
-        fun_list.append(res)
-  return sorted(fun_list)
+  results = getRelsText(input)
+  for res in results:
+    if res not in fun_list:
+      fun_list.append(res)
+    return sorted(fun_list)
 
 
 # If input is already parsed conllu, only extract the funs
