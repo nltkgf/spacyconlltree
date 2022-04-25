@@ -1,0 +1,11 @@
+1	the	the	DET	DT	Definite=Def|PronType=Art	2	det	_	_
+2	policy	policy	NOUN	NN	Number=Sing	0	root	_	_
+3	(	(	PUNCT	-LRB-	_	4	punct	_	SpaceAfter=No
+4	called	call	VERB	VBN	Tense=Past|VerbForm=Part	2	acl	_	_
+5	the	the	DET	DT	Definite=Def|PronType=Art	7	det	_	_
+6	applicable	applicable	ADJ	JJ	Degree=Pos	7	amod	_	_
+7	policy	policy	NOUN	NN	Number=Sing	4	obj	_	SpaceAfter=No
+8	)	)	PUNCT	-RRB-	_	4	punct	_	_
+9	of	of	ADP	IN	_	11	case	_	_
+10	the	the	DET	DT	Definite=Def|PronType=Art	11	det	_	_
+11	company	company	NOUN	NN	Number=Sing	2	nmod	_	SpacesAfter=\n
