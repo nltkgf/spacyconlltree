@@ -1,6 +1,7 @@
 import spacy
 import spacy_udpipe
 import sys
+import os
 
 #nlp = spacy.load("en_core_web_sm")
 nlp = spacy_udpipe.load("en")
@@ -128,6 +129,32 @@ def replaceColon(el):
       return el[:ind]
   return el
 
+def appendToUDApp(filename):
+  udApp = open('UDApp.gf','r+')
+  udApp.seek(0, os.SEEK_END)
+  pos = udApp.tell() - 1
+  # look for } from the end
+  while pos > 0 and udApp.read(1) != "}":
+    pos -= 1
+    udApp.seek(pos, os.SEEK_SET)
+  # delete from } and write
+  if pos > 0:
+    udApp.seek(pos, os.SEEK_SET)
+    udApp.truncate()
+    for fun in uniqueFuns(filename):
+      udApp.write("  ")
+      udApp.write(fun.gfAbs())
+      udApp.write("\n")
+    udApp.write("}")
+  udApp.close()
+
+def appendToLabels(filename):
+  labels = open('UDApp.labels','a')
+  for fun in uniqueFuns(filename):
+    labels.write("\n")
+    labels.write(fun.labels())
+  labels.close()
+
 def printIt(filename):
   print("diffs")
   for fun in uniqueFuns(filename):
@@ -137,3 +164,5 @@ def printIt(filename):
     print(fun.labels())
 
 printIt(filename)
+appendToUDApp(filename)
+appendToLabels(filename)
